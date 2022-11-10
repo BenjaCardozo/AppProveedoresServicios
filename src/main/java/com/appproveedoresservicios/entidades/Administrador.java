@@ -1,5 +1,10 @@
 package com.appproveedoresservicios.entidades;
 
-public class Administrador {
-    
+import javax.persistence.Entity;
+import lombok.Data;
+
+@Entity
+@Data
+public class Administrador extends Persona {
+  
 }
