@@ -1,5 +1,6 @@
 package com.appproveedoresservicios.entidades;
 
+import com.appproveedoresservicios.enums.Rol;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -11,7 +12,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Data
-public abstract class Persona {
+public abstract class Persona {   
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid",strategy ="uuid2")
