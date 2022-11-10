@@ -1,5 +1,9 @@
 package com.appproveedoresservicios.repositorios;
 
-public class ProveedorRepositorio {
+import com.appproveedoresservicios.entidades.Proveedor;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ProveedorRepositorio extends JpaRepository<Proveedor, Long> {
+    
     
 }
