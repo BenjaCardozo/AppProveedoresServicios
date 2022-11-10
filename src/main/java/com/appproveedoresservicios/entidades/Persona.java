@@ -1,5 +1,6 @@
 package com.appproveedoresservicios.entidades;
 
+import com.appproveedoresservicios.enums.Rol;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
