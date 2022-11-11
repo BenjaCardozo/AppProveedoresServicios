@@ -1,14 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.appproveedoresservicios.dto;
 
-/**
- *
- * @author Walter
- */
+import lombok.Data;
+
+@Data
 public class ProveedorResponse {
-    
+    private String nombre;
+    private String correo;
+    private String contacto;
+    private String descripcion;
+    private String rubro;
+    private String disponibilidad;
 }
