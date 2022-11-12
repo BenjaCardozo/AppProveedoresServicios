@@ -17,5 +17,5 @@ public interface ProveedorServicio {
     
     void darAltaProveedor();
     
-    Proveedor findByID();
+    Proveedor buscarProveedor();
 }
