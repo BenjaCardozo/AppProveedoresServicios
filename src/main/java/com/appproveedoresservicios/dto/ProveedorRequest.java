@@ -9,6 +9,7 @@ public class ProveedorRequest {
     private String correo;
     private String clave;
     private String clave2;
+    private String barrio;
     private MultipartFile foto;
     private String contacto;
     private String descripcion;
