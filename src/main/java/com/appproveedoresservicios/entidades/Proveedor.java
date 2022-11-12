@@ -10,7 +10,6 @@ import lombok.Data;
 @Entity
 public class Proveedor extends Persona{
     
-    private String localidad;
     private String contacto;
     private String descripcion;
     private String rubro;
