@@ -2,10 +2,18 @@ package com.appproveedoresservicios.mapper;
 
 import com.appproveedoresservicios.dto.ProveedorRequest;
 import com.appproveedoresservicios.dto.ProveedorResponse;
+import com.appproveedoresservicios.entidades.Foto;
 import com.appproveedoresservicios.entidades.Proveedor;
 import com.appproveedoresservicios.enums.Rol;
+import com.appproveedoresservicios.servicios.FotoServicioImp;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ProveedorMapper {
+    
+    @Autowired
+    FotoServicioImp fotoServicioImp;
     
     public Proveedor map(ProveedorRequest proveedorRequest){
         
@@ -15,8 +23,8 @@ public class ProveedorMapper {
         proveedor.setCorreo(proveedorRequest.getCorreo());
         proveedor.setClave(proveedorRequest.getClave());
         proveedor.setBarrio(proveedorRequest.getBarrio());
-        //LE PUSE NULL PORQUE FALTA HACER EL SERVICIO DE FOTO TODAVÍA
-        proveedor.setFoto(null);
+        Foto foto = fotoServicioImp.guardarFoto(proveedorRequest.getFoto());
+        proveedor.setFoto(foto);
         proveedor.setAlta(true);
         proveedor.setRol(Rol.PROVEEDOR);
         
