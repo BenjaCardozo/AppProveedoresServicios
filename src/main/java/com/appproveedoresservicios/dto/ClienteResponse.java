@@ -4,7 +4,7 @@ import com.appproveedoresservicios.enums.Rol;
 import lombok.Data;
 
 @Data
-public class ProveedorResponse {
+public class ClienteResponse {
     
     private Long id;
     private String nombre;
@@ -14,7 +14,4 @@ public class ProveedorResponse {
     private Rol rol; 
     
     private String contacto;
-    private String descripcion;
-    private String rubro;
-    private String disponibilidad;
 }
