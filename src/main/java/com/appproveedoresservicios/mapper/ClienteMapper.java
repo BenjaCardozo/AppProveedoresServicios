@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class ClienteMapper {
     
-
     @Autowired
     FotoServicio fotoServicio;
 
