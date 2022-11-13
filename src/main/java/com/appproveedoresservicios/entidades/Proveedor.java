@@ -16,11 +16,10 @@ public class Proveedor extends Persona {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
     
-    private String localidad;
     private String contacto;
     private String descripcion;
     private String rubro;
-    private double promedioFeedback;
+    private Double promedioFeedback;
     private String disponibilidad;
     @OneToMany
     private List<Trabajo> trabajo;
