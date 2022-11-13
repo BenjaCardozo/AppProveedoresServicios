@@ -4,12 +4,13 @@ package com.appproveedoresservicios.servicios;
 import com.appproveedoresservicios.dto.ProveedorRequest;
 import com.appproveedoresservicios.dto.ProveedorResponse;
 import com.appproveedoresservicios.entidades.Proveedor;
+import com.appproveedoresservicios.excepciones.ResourceNotFoundException;
 
 
 
 public interface ProveedorServicio {
     
-    ProveedorResponse crearProveedor (ProveedorRequest request) throws Exception ;
+    ProveedorResponse crearProveedor (ProveedorRequest request);
     
     ProveedorResponse modificarProveedor(ProveedorRequest request, Long id) throws Exception;
     
@@ -19,5 +20,7 @@ public interface ProveedorServicio {
     
     void darAltaProveedor(Long id) throws Exception;
     
-    Proveedor findByID(Long id) throws Exception;
+    Proveedor findById(Long id) throws ResourceNotFoundException;
+    
+    ProveedorResponse findProveedorById(Long id) throws ResourceNotFoundException;
 }

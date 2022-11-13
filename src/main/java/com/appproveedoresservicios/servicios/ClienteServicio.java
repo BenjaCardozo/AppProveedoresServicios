@@ -3,14 +3,17 @@ package com.appproveedoresservicios.servicios;
 import com.appproveedoresservicios.dto.ClienteRequest;
 import com.appproveedoresservicios.dto.ClienteResponse;
 import com.appproveedoresservicios.entidades.Cliente;
+import com.appproveedoresservicios.excepciones.ResourceNotFoundException;
 
 public interface ClienteServicio {
     
-    ClienteResponse crearCliente(ClienteRequest request) throws Exception ;
+    ClienteResponse crearCliente(ClienteRequest request);
     
     ClienteResponse modificarCliente(ClienteRequest request, Long id) throws Exception ;
     
-    Cliente findByID(Long id) throws Exception;
+    Cliente findById(Long id) throws ResourceNotFoundException;
+    
+    ClienteResponse findClienteById(Long id) throws ResourceNotFoundException;
     
     Cliente eliminarCliente(Long id) throws Exception;
     

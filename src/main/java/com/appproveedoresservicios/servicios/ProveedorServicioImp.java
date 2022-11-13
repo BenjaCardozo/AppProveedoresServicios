@@ -4,7 +4,7 @@ import com.appproveedoresservicios.dto.ProveedorRequest;
 import com.appproveedoresservicios.dto.ProveedorResponse;
 import com.appproveedoresservicios.entidades.Foto;
 import com.appproveedoresservicios.entidades.Proveedor;
-import com.appproveedoresservicios.excepciones.AppExcepcion;
+import com.appproveedoresservicios.excepciones.ResourceNotFoundException;
 import com.appproveedoresservicios.mapper.ProveedorMapper;
 import com.appproveedoresservicios.repositorios.ProveedorRepositorio;
 import java.util.Optional;
@@ -24,9 +24,7 @@ public class ProveedorServicioImp implements ProveedorServicio {
     FotoServicioImp fotoServicioImp;
 
     @Override
-    public ProveedorResponse crearProveedor(ProveedorRequest request) throws Exception {
-
-        validar(request);
+    public ProveedorResponse crearProveedor(ProveedorRequest request){
 
         Proveedor proveedor = mapper.map(request);
 
@@ -38,13 +36,12 @@ public class ProveedorServicioImp implements ProveedorServicio {
     @Override
     public ProveedorResponse modificarProveedor(ProveedorRequest request, Long id) throws Exception {
 
-        validar(request);
-
         Optional<Proveedor> respuesta = proveedorRepositorio.findById(id);
+        Proveedor proveedor = null;
         
         if (respuesta.isPresent()) {
 
-            Proveedor proveedor = respuesta.get();
+            proveedor = respuesta.get();
 
             proveedor.setNombre(request.getNombre());
             proveedor.setCorreo(request.getCorreo());
@@ -63,27 +60,14 @@ public class ProveedorServicioImp implements ProveedorServicio {
             proveedor.setFoto(foto);
 
             proveedorRepositorio.save(proveedor);
-
-            return mapper.map(proveedor);
         }
         
-        return null;
-
-    }
-
-    @Override
-    public Proveedor findByID(Long id) throws Exception {
-        Optional<Proveedor> proveedor = proveedorRepositorio.findById(id);
-        if (proveedor.isPresent()) {
-            return proveedor.get();
-        } else {
-            throw new Exception("Este proveedor no existe");
-        }
+        return mapper.map(proveedor);
     }
 
     @Override
     public Proveedor eliminarProveedor(Long id) throws Exception {
-        findByID(id);
+        findById(id);
         proveedorRepositorio.deleteById(id);
         return null;
     }
@@ -123,44 +107,18 @@ public class ProveedorServicioImp implements ProveedorServicio {
         }
     }
     
-    private void validar(ProveedorRequest request) throws AppExcepcion {
-
-        if (request.getCorreo().isEmpty() || request.getCorreo() == null) {
-            throw new AppExcepcion("El correo no puede estar vacío.");
+    @Override
+    public Proveedor findById(Long id) throws ResourceNotFoundException {
+        Optional<Proveedor> proveedor = proveedorRepositorio.findById(id);
+        if (proveedor.isPresent()) {
+            return proveedor.get();
+        } else {
+            throw new ResourceNotFoundException("Este proveedor no existe");
         }
-
-        if (request.getNombre().isEmpty() || request.getNombre() == null) {
-            throw new AppExcepcion("El nombre no puede estar vacío.");
-        }
-
-        if (request.getClave().length() < 8 || request.getClave().length() > 16) {
-            throw new AppExcepcion("La clave tiene que ser de un mínimo de 8 caracteres y un máximo de 16 caracteres.");
-        }
-
-        if (!request.getClave().equals(request.getClave2())) {
-            throw new AppExcepcion("Las claves deben ser iguales.");
-        }
-
-        if (request.getBarrio().isEmpty() || request.getBarrio() == null) {
-            throw new AppExcepcion("El barrio no puede estar vacío.");
-        }
-
-        if (request.getContacto().isEmpty() || request.getContacto() == null) {
-            throw new AppExcepcion("El contacto no puede estar vacío.");
-        }
-
-        if (request.getDescripcion().isEmpty() || request.getDescripcion() == null) {
-            throw new AppExcepcion("El contacto no puede estar vacío.");
-        }
-
-        if (request.getRubro().isEmpty() || request.getRubro() == null) {
-            throw new AppExcepcion("El rubro no puede estar vacio");
-        }
-
-        if (request.getDisponibilidad().isEmpty() || request.getDisponibilidad() == null) {
-            throw new AppExcepcion("El rubro no puede estar vacio");
-        }
-
     }
-
+    
+    @Override
+    public ProveedorResponse findProveedorById(Long id) throws ResourceNotFoundException{
+        return mapper.map(findById(id));
+    }
 }
