@@ -1,7 +1,7 @@
 package com.appproveedoresservicios.controladores;
 
 import com.appproveedoresservicios.entidades.Proveedor;
-import com.appproveedoresservicios.servicios.ProveedorServicio;
+import com.appproveedoresservicios.servicios.ProveedorServicioImp;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +19,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class FotoControlador {
     
     @Autowired
-    ProveedorServicio proveedorServicio;
+    ProveedorServicioImp proveedorServicioImp;
     
     @GetMapping("/proveedor/{id}")
     public ResponseEntity<byte[]> fotoProveedor(@PathVariable Long id){
         try {
-            Proveedor proveedor = proveedorServicio.findByID(id);
+            Proveedor proveedor = proveedorServicioImp.findByID(id);
             if (proveedor.getFoto() == null) {
                 throw new Exception("El proveedor no tiene una foto.");
             }

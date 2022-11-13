@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ProveedorRepositorio extends JpaRepository<Proveedor, Long>{
- 
+    
 }
