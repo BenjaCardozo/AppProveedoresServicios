@@ -1,11 +1,9 @@
 package com.appproveedoresservicios.servicios;
 
 import com.appproveedoresservicios.dto.ProveedorRequest;
-import com.appproveedoresservicios.dto.ProveedorResponse;
 import com.appproveedoresservicios.entidades.Foto;
 import com.appproveedoresservicios.entidades.Proveedor;
 import com.appproveedoresservicios.excepciones.AppExcepcion;
-import com.appproveedoresservicios.mapper.ProveedorMapper;
 import com.appproveedoresservicios.repositorios.ProveedorRepositorio;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +18,8 @@ public class ProveedorServicioImp implements ProveedorServicio {
     @Autowired
     ProveedorMapper mapper;
 
-    @Autowired
-    FotoServicio fotoServicio;
-
     @Override
-    public ProveedorResponse crearProveedor(ProveedorRequest request) throws Exception {
+    public ProveedorResponse crearProveedor(ProveedorRequest request) {
 
         validar(request);
 
@@ -36,39 +31,39 @@ public class ProveedorServicioImp implements ProveedorServicio {
     }
 
     @Override
-    public ProveedorResponse modificarProveedor(ProveedorRequest request, Long id) throws Exception {
+    public void modificarProveedor(ProveedorRequest request, Long id) throws Exception {
 
         validar(request);
-
-        Optional<Proveedor> respuesta = proveedorRepositorio.findById(id);
         
-        if (respuesta.isPresent()) {
+        Optional<Proveedor> respuesta = proveedorRepositorio.findById(id);
+         
+        if(respuesta.isPresent()){
+            
+        Proveedor proveedor = respuesta.get();
+        
+        proveedor.setNombre(request.getNombre());
+        proveedor.setCorreo(request.getCorreo());
+        proveedor.setClave(request.getClave());
+        proveedor.setContacto(request.getContacto());
+        proveedor.setDisponibilidad(request.getDisponibilidad());
+        proveedor.setBarrio(request.getBarrio());
 
-            Proveedor proveedor = respuesta.get();
+        Long FotoId = null;
+        if (request.getFoto() != null) {
+            FotoId = request.getFoto().getId();
+        }
 
-            proveedor.setNombre(request.getNombre());
-            proveedor.setCorreo(request.getCorreo());
-            proveedor.setClave(request.getClave());
-            proveedor.setContacto(request.getContacto());
-            proveedor.setDisponibilidad(request.getDisponibilidad());
-            proveedor.setBarrio(request.getBarrio());
+        Foto foto = fotoServicio.actualizarFoto(archivo, id);
+        
+        proveedor.setFoto(foto);
+        
+        proveedorRepositorio.save(proveedor);
+        
+        return mapper.map(proveedor);
 
-            Long fotoId = null;
-            if (request.getFoto() != null) {
-                fotoId = proveedor.getFoto().getId();
-            }
-
-            Foto foto = fotoServicio.actualizarFoto(request.getFoto(), fotoId);
-
-            proveedor.setFoto(foto);
-
-            proveedorRepositorio.save(proveedor);
-
-            return mapper.map(proveedor);
+            
         }
         
-        return null;
-
     }
 
     @Override
@@ -121,8 +116,9 @@ public class ProveedorServicioImp implements ProveedorServicio {
             proveedorRepositorio.save(proveedor);
 
         }
-    }
     
+    
+
     private void validar(ProveedorRequest request) throws AppExcepcion {
 
         if (request.getCorreo().isEmpty() || request.getCorreo() == null) {

@@ -1,21 +1,19 @@
 package com.appproveedoresservicios.servicios;
 
-import com.appproveedoresservicios.dto.ClienteRequest;
-import com.appproveedoresservicios.dto.ClienteResponse;
 import com.appproveedoresservicios.entidades.Cliente;
 
 public interface ClienteServicio {
     
-    ClienteResponse crearCliente(ClienteRequest request) throws Exception ;
+    void crearCliente();
     
-    ClienteResponse modificarCliente(ClienteRequest request, Long id) throws Exception ;
+    void modificarClienter();
     
-    Cliente findByID(Long id) throws Exception;
+    void eliminarCliente();
     
-    Cliente eliminarCliente(Long id) throws Exception;
+    void darBajaCliente();
     
-    void darBajaCliente(Long id) throws Exception ;
+    void darAltaCliente();
     
-    void darAltaCliente(Long id) throws Exception ;
+    Cliente findByID();
     
 }

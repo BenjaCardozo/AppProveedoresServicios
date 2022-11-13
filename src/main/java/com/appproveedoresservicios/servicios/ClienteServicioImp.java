@@ -1,11 +1,7 @@
 package com.appproveedoresservicios.servicios;
 
 import com.appproveedoresservicios.dto.ClienteRequest;
-import com.appproveedoresservicios.dto.ClienteResponse;
 import com.appproveedoresservicios.entidades.Cliente;
-import com.appproveedoresservicios.entidades.Foto;
-import com.appproveedoresservicios.excepciones.AppExcepcion;
-import com.appproveedoresservicios.mapper.ClienteMapper;
 import com.appproveedoresservicios.repositorios.ClienteRepositorio;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +16,8 @@ public class ClienteServicioImp implements ClienteServicio {
     @Autowired
     ClienteMapper mapper;
 
-    @Autowired
-    FotoServicio fotoServicio;
-
     @Override
-    public ClienteResponse crearCliente(ClienteRequest request) throws Exception {
+    public ClienteResponse crearCliente(ClienteRequest request) {
 
         validar(request);
 
@@ -37,7 +30,7 @@ public class ClienteServicioImp implements ClienteServicio {
     }
 
     @Override
-    public ClienteResponse modificarCliente(ClienteRequest request, Long id) throws Exception {
+    public void modificarClienter(ClienteRequest request, Long id) {
 
         validar(request);
 
@@ -53,20 +46,20 @@ public class ClienteServicioImp implements ClienteServicio {
             cliente.setContacto(request.getContacto());
             cliente.setBarrio(request.getBarrio());
 
-            Long fotoId = null;
+            Long FotoId = null;
             if (request.getFoto() != null) {
-                fotoId = cliente.getFoto().getId();
+                FotoId = request.getFoto().getId();
             }
 
-            Foto foto = fotoServicio.actualizarFoto(request.getFoto(), fotoId);
+            Foto foto = fotoServicio.actualizarFoto(archivo, id);
 
             cliente.setFoto(foto);
 
             clienteRepositorio.save(cliente);
 
             return mapper.map(cliente);
+
         }
-        return null;
 
     }
 
@@ -102,7 +95,7 @@ public class ClienteServicioImp implements ClienteServicio {
             clienteRepositorio.save(cliente);
 
         }
-
+        
     }
 
     @Override
@@ -120,8 +113,9 @@ public class ClienteServicioImp implements ClienteServicio {
             clienteRepositorio.save(cliente);
 
         }
-
+        
     }
+
 
     private void validar(ClienteRequest request) throws AppExcepcion {
 
@@ -145,7 +139,7 @@ public class ClienteServicioImp implements ClienteServicio {
             throw new AppExcepcion("El contacto no puede estar vacío.");
         }
 
-        if (request.getBarrio().isEmpty() || request.getBarrio() == null) {
+        if (request.getBario().isEmpty() || request.getBarrio() == null) {
             throw new AppExcepcion("El barrio no puede estar vacío.");
         }
 

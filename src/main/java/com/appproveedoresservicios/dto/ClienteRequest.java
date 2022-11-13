@@ -5,10 +5,12 @@
  */
 package com.appproveedoresservicios.dto;
 
-import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
-@Data
+/**
+ *
+ * @author Mega Tecnologia
+ */
 public class ClienteRequest {
     private String nombre;
     private String correo;
