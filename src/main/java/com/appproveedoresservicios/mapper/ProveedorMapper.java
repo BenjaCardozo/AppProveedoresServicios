@@ -5,7 +5,7 @@ import com.appproveedoresservicios.dto.ProveedorResponse;
 import com.appproveedoresservicios.entidades.Foto;
 import com.appproveedoresservicios.entidades.Proveedor;
 import com.appproveedoresservicios.enums.Rol;
-import com.appproveedoresservicios.servicios.FotoServicio;
+import com.appproveedoresservicios.servicios.FotoServicioImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 public class ProveedorMapper {
     
     @Autowired
-    FotoServicio fotoServicio;
+    FotoServicioImp fotoServicioImp;
     
     public Proveedor map(ProveedorRequest proveedorRequest){
         
@@ -24,7 +24,7 @@ public class ProveedorMapper {
         proveedor.setCorreo(proveedorRequest.getCorreo());
         proveedor.setClave(proveedorRequest.getClave());
         proveedor.setBarrio(proveedorRequest.getBarrio());
-        Foto foto = fotoServicio.guardarFoto(proveedorRequest.getFoto());
+        Foto foto = fotoServicioImp.guardarFoto(proveedorRequest.getFoto());
         proveedor.setFoto(foto);
         proveedor.setAlta(true);
         proveedor.setRol(Rol.PROVEEDOR);
