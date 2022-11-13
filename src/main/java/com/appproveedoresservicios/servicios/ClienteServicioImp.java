@@ -4,7 +4,7 @@ import com.appproveedoresservicios.dto.ClienteRequest;
 import com.appproveedoresservicios.dto.ClienteResponse;
 import com.appproveedoresservicios.entidades.Cliente;
 import com.appproveedoresservicios.entidades.Foto;
-import com.appproveedoresservicios.excepciones.AppExcepcion;
+import com.appproveedoresservicios.excepciones.ResourceNotFoundException;
 import com.appproveedoresservicios.mapper.ClienteMapper;
 import com.appproveedoresservicios.repositorios.ClienteRepositorio;
 import java.util.Optional;
@@ -24,9 +24,7 @@ public class ClienteServicioImp implements ClienteServicio {
     FotoServicioImp fotoServicioImp;
 
     @Override
-    public ClienteResponse crearCliente(ClienteRequest request) throws Exception {
-
-        validar(request);
+    public ClienteResponse crearCliente(ClienteRequest request){
 
         Cliente cliente = mapper.map(request);
 
@@ -39,13 +37,12 @@ public class ClienteServicioImp implements ClienteServicio {
     @Override
     public ClienteResponse modificarCliente(ClienteRequest request, Long id) throws Exception {
 
-        validar(request);
-
         Optional<Cliente> respuesta = clienteRepositorio.findById(id);
-
+        Cliente cliente = null;
+        
         if (respuesta.isPresent()) {
 
-            Cliente cliente = respuesta.get();
+            cliente = respuesta.get();
 
             cliente.setNombre(request.getNombre());
             cliente.setCorreo(request.getCorreo());
@@ -63,26 +60,29 @@ public class ClienteServicioImp implements ClienteServicio {
             cliente.setFoto(foto);
 
             clienteRepositorio.save(cliente);
-
-            return mapper.map(cliente);
         }
-        return null;
-
+        
+        return mapper.map(cliente);
     }
 
     @Override
-    public Cliente findByID(Long id) throws Exception {
+    public Cliente findById(Long id) throws ResourceNotFoundException {
         Optional<Cliente> cliente = clienteRepositorio.findById(id);
         if (cliente.isPresent()) {
             return cliente.get();
         } else {
-            throw new Exception("Este proveedor no existe");
+            throw new ResourceNotFoundException("Este cliente no existe.");
         }
     }
 
     @Override
+    public ClienteResponse findClienteById(Long id) throws ResourceNotFoundException{
+        return mapper.map(findById(id));
+    }
+    
+    @Override
     public Cliente eliminarCliente(Long id) throws Exception {
-        findByID(id);
+        findById(id);
         clienteRepositorio.deleteById(id);
         return null;
     }
@@ -122,33 +122,4 @@ public class ClienteServicioImp implements ClienteServicio {
         }
 
     }
-
-    private void validar(ClienteRequest request) throws AppExcepcion {
-
-        if (request.getCorreo().isEmpty() || request.getCorreo() == null) {
-            throw new AppExcepcion("El correo no puede estar vacío.");
-        }
-
-        if (request.getNombre().isEmpty() || request.getNombre() == null) {
-            throw new AppExcepcion("El nombre no puede estar vacío.");
-        }
-
-        if (request.getClave().length() < 8 || request.getClave().length() > 16) {
-            throw new AppExcepcion("La clave tiene que ser de un mínimo de 8 caracteres y un máximo de 16 caracteres.");
-        }
-
-        if (!request.getClave().equals(request.getClave2())) {
-            throw new AppExcepcion("Las claves deben ser iguales.");
-        }
-
-        if (request.getContacto().isEmpty() || request.getContacto() == null) {
-            throw new AppExcepcion("El contacto no puede estar vacío.");
-        }
-
-        if (request.getBarrio().isEmpty() || request.getBarrio() == null) {
-            throw new AppExcepcion("El barrio no puede estar vacío.");
-        }
-
-    }
-
 }

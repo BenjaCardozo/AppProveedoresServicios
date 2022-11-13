@@ -24,7 +24,8 @@ public class FotoControlador {
     @GetMapping("/proveedor/{id}")
     public ResponseEntity<byte[]> fotoProveedor(@PathVariable Long id){
         try {
-            Proveedor proveedor = proveedorServicioImp.findByID(id);
+            Proveedor proveedor = proveedorServicioImp.findById(id);
+            
             if (proveedor.getFoto() == null) {
                 throw new Exception("El proveedor no tiene una foto.");
             }
