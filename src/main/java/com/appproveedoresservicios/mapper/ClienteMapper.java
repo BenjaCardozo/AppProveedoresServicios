@@ -5,7 +5,7 @@ import com.appproveedoresservicios.dto.ClienteResponse;
 import com.appproveedoresservicios.entidades.Cliente;
 import com.appproveedoresservicios.entidades.Foto;
 import com.appproveedoresservicios.enums.Rol;
-import com.appproveedoresservicios.servicios.FotoServicio;
+import com.appproveedoresservicios.servicios.FotoServicioImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 public class ClienteMapper {
     
     @Autowired
-    FotoServicio fotoServicio;
+    FotoServicioImp fotoServicioImp;
 
     public Cliente map(ClienteRequest clienteRequest) {
 
@@ -24,7 +24,7 @@ public class ClienteMapper {
         cliente.setCorreo(clienteRequest.getCorreo());
         cliente.setClave(clienteRequest.getClave());
         cliente.setBarrio(clienteRequest.getBarrio());
-        Foto foto = fotoServicio.guardarFoto(clienteRequest.getFoto());
+        Foto foto = fotoServicioImp.guardarFoto(clienteRequest.getFoto());
         cliente.setFoto(foto);
         cliente.setAlta(true);
         cliente.setRol(Rol.CLIENTE);

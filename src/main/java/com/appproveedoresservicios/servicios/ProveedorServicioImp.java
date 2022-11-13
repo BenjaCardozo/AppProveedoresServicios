@@ -21,7 +21,7 @@ public class ProveedorServicioImp implements ProveedorServicio {
     ProveedorMapper mapper;
 
     @Autowired
-    FotoServicio fotoServicio;
+    FotoServicioImp fotoServicioImp;
 
     @Override
     public ProveedorResponse crearProveedor(ProveedorRequest request) throws Exception {
@@ -58,7 +58,7 @@ public class ProveedorServicioImp implements ProveedorServicio {
                 fotoId = proveedor.getFoto().getId();
             }
 
-            Foto foto = fotoServicio.actualizarFoto(request.getFoto(), fotoId);
+            Foto foto = fotoServicioImp.actualizarFoto(request.getFoto(), fotoId);
 
             proveedor.setFoto(foto);
 

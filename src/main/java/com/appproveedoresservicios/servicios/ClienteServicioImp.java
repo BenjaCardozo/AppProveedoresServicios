@@ -21,7 +21,7 @@ public class ClienteServicioImp implements ClienteServicio {
     ClienteMapper mapper;
 
     @Autowired
-    FotoServicio fotoServicio;
+    FotoServicioImp fotoServicioImp;
 
     @Override
     public ClienteResponse crearCliente(ClienteRequest request) throws Exception {
@@ -58,7 +58,7 @@ public class ClienteServicioImp implements ClienteServicio {
                 fotoId = cliente.getFoto().getId();
             }
 
-            Foto foto = fotoServicio.actualizarFoto(request.getFoto(), fotoId);
+            Foto foto = fotoServicioImp.actualizarFoto(request.getFoto(), fotoId);
 
             cliente.setFoto(foto);
 
