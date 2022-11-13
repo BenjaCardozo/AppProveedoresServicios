@@ -21,8 +21,6 @@ public class ProveedorControlador {
     
     @PostMapping ("/crear")
     public ResponseEntity<ProveedorResponse> crear (@RequestBody @Valid ProveedorRequest proveedorRequest) throws Exception{
-        System.out.println(proveedorRequest.getNombre());
-        
         return ResponseEntity.status(HttpStatus.CREATED).body(proveedorServicioImp.crearProveedor(proveedorRequest));
     }
 }
