@@ -1,21 +1,23 @@
 
 package com.appproveedoresservicios.servicios;
 
+import com.appproveedoresservicios.dto.ProveedorRequest;
+import com.appproveedoresservicios.dto.ProveedorResponse;
 import com.appproveedoresservicios.entidades.Proveedor;
 
 
 
 public interface ProveedorServicio {
     
-    void crearProveedor ();
+    ProveedorResponse crearProveedor (ProveedorRequest request) throws Exception ;
     
-    void modificarProveedor();
+    ProveedorResponse modificarProveedor(ProveedorRequest request, Long id) throws Exception;
     
-    void eliminarProveedor();
+    Proveedor eliminarProveedor(Long id) throws Exception;
     
-    void darBajaProveedor();
+    void darBajaProveedor(Long id) throws Exception;
     
-    void darAltaProveedor();
+    void darAltaProveedor(Long id) throws Exception;
     
-    Proveedor findByID();
+    Proveedor findByID(Long id) throws Exception;
 }
