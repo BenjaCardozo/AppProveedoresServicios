@@ -1,14 +1,20 @@
 package com.appproveedoresservicios.entidades;
 
-import com.appproveedoresservicios.enums.Rol;
 import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import lombok.Data;
 
 @Data
 @Entity
-public class Proveedor extends Persona{
+public class Proveedor extends Persona {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    protected Long id;
     
     private String localidad;
     private String contacto;
@@ -20,5 +26,5 @@ public class Proveedor extends Persona{
     private List<Trabajo> trabajo;
     @OneToMany
     private List<FeedBack> feedback;
-   
+
 }
