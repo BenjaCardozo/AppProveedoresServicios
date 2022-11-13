@@ -19,8 +19,8 @@ public class ProveedorControlador {
     @Autowired
     ProveedorServicioImp proveedorServicioImp;
     
-    @PostMapping ("/crear")
-    public ResponseEntity<ProveedorResponse> crear (@RequestBody @Valid ProveedorRequest proveedorRequest) throws Exception{
+    @PostMapping
+    public ResponseEntity<ProveedorResponse> crear (@RequestBody @Valid ProveedorRequest proveedorRequest){
         return ResponseEntity.status(HttpStatus.CREATED).body(proveedorServicioImp.crearProveedor(proveedorRequest));
     }
 }

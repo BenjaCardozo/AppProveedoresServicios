@@ -36,7 +36,7 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
     
-    /*500*/
+     //500
     @ExceptionHandler(value = Exception.class)
     public ResponseEntity<ErrorResponse> handleRuntimeException(Exception e) {
         ErrorResponse error = buildErrorResponse("{Message: }" + e.getMessage() + "{StackTrace: }" + e.getStackTrace(), HttpStatus.INTERNAL_SERVER_ERROR);
