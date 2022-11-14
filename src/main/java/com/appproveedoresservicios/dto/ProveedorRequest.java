@@ -13,7 +13,7 @@ public class ProveedorRequest {
     @NotEmpty(message = "El campo 'nombre' no puede estar vacío.")
     private String nombre;
 
-    @NotEmpty(message = "El campo correo no puede estar vacío.")
+    @NotEmpty(message = "El campo 'correo' no puede estar vacío.")
     @Email(message = "Debe ingresar un correo valido.")
     private String correo;
 

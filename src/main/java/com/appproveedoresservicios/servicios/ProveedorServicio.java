@@ -1,6 +1,7 @@
 
 package com.appproveedoresservicios.servicios;
 
+import com.appproveedoresservicios.dto.ListProveedorResponse;
 import com.appproveedoresservicios.dto.ProveedorRequest;
 import com.appproveedoresservicios.dto.ProveedorResponse;
 import com.appproveedoresservicios.entidades.Proveedor;
@@ -23,4 +24,6 @@ public interface ProveedorServicio {
     Proveedor findById(Long id) throws ResourceNotFoundException;
     
     ProveedorResponse findProveedorById(Long id) throws ResourceNotFoundException;
+    
+    ListProveedorResponse listarProveedores();
 }

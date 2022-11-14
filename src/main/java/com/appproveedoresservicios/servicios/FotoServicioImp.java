@@ -1,6 +1,7 @@
 package com.appproveedoresservicios.servicios;
 
 import com.appproveedoresservicios.entidades.Foto;
+import com.appproveedoresservicios.excepciones.ResourceNotFoundException;
 import com.appproveedoresservicios.repositorios.FotoRepositorio;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,5 +55,21 @@ public class FotoServicioImp implements FotoServicio{
         }
         return null;
     }
-    
+
+    @Override
+    public Foto findFotoById(Long idFoto) {
+        Optional<Foto> foto = fotoRepositorio.findById(idFoto);
+        if (foto.isPresent()) {
+            return foto.get();
+        } else {
+            throw new ResourceNotFoundException("Esa foto no existe");
+        }
+    }
+
+    @Override
+    public Foto eliminarFoto(Long idFoto) {
+        findFotoById(idFoto);
+        fotoRepositorio.deleteById(idFoto);
+        return null;
+    }
 }
