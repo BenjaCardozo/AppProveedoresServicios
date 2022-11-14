@@ -25,5 +25,7 @@ public interface ProveedorServicio {
     
     ProveedorResponse findProveedorById(Long id) throws ResourceNotFoundException;
     
+    ListProveedorResponse buscarProveedorPorBarrio(String barrio) throws ResourceNotFoundException;
+    
     ListProveedorResponse listarProveedores();
 }
