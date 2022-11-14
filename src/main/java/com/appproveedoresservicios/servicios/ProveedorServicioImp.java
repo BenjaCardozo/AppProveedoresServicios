@@ -27,7 +27,7 @@ public class ProveedorServicioImp implements ProveedorServicio {
     FotoServicioImp fotoServicioImp;
 
     @Override
-    public ProveedorResponse crearProveedor(ProveedorRequest request){
+    public ProveedorResponse crearProveedor(ProveedorRequest request) {
 
         Proveedor proveedor = mapper.map(request);
 
@@ -41,7 +41,7 @@ public class ProveedorServicioImp implements ProveedorServicio {
 
         Optional<Proveedor> respuesta = proveedorRepositorio.findById(id);
         Proveedor proveedor = null;
-        
+
         if (respuesta.isPresent()) {
 
             proveedor = respuesta.get();
@@ -55,7 +55,7 @@ public class ProveedorServicioImp implements ProveedorServicio {
 
             Long fotoId = null;
             if (request.getFoto() != null) {
-                fotoId = proveedor.getFoto().getId();
+                fotoId = mapper.map(request).getFoto().getId();
             }
 
             Foto foto = fotoServicioImp.actualizarFoto(request.getFoto(), fotoId);
@@ -63,11 +63,11 @@ public class ProveedorServicioImp implements ProveedorServicio {
             proveedor.setFoto(foto);
 
             proveedorRepositorio.save(proveedor);
-            if(fotoId != null){
+            if (fotoId != null) {
                 fotoServicioImp.eliminarFoto(fotoId);
             }
         }
-        
+
         return mapper.map(proveedor);
     }
 
@@ -112,7 +112,7 @@ public class ProveedorServicioImp implements ProveedorServicio {
 
         }
     }
-    
+
     @Override
     public Proveedor findById(Long id) throws ResourceNotFoundException {
         Optional<Proveedor> proveedor = proveedorRepositorio.findById(id);
@@ -122,22 +122,22 @@ public class ProveedorServicioImp implements ProveedorServicio {
             throw new ResourceNotFoundException("Este proveedor no existe");
         }
     }
-    
+
     @Override
-    public ProveedorResponse findProveedorById(Long id) throws ResourceNotFoundException{
+    public ProveedorResponse findProveedorById(Long id) throws ResourceNotFoundException {
         return mapper.map(findById(id));
     }
 
     @Override
     public ListProveedorResponse listarProveedores() {
-        
+
         List<Proveedor> proveedores = proveedorRepositorio.findAll();
-        
-        if (proveedores.size()<1) {
+
+        if (proveedores.size() < 1) {
             throw new DataNotFoundException("No hay proveedores en la base de datos, agrega algunos.");
         }
         ListProveedorResponse proveedoresResponse = new ListProveedorResponse();
-        
+
         proveedoresResponse.setProveedores(mapper.map(proveedores));
 
         return proveedoresResponse;

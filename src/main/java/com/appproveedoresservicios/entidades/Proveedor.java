@@ -15,7 +15,7 @@ public class Proveedor extends Persona {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
-    
+
     private String contacto;
     private String descripcion;
     private String rubro;
