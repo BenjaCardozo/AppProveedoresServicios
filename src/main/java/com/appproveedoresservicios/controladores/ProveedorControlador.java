@@ -24,65 +24,70 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/proveedor")
 public class ProveedorControlador {
-    
+
     @Autowired
     ProveedorServicioImp proveedorServicioImp;
-    
+
     @PostMapping
     @Transactional
-    public ResponseEntity<ProveedorResponse> crear (@Valid @ModelAttribute ProveedorRequest proveedorRequest, BindingResult result) throws MethodArgumentNotValidException{
-        
-        if(result.hasErrors()){
+    public ResponseEntity<ProveedorResponse> crear(@Valid @ModelAttribute ProveedorRequest proveedorRequest, BindingResult result) throws MethodArgumentNotValidException {
+
+        if (result.hasErrors()) {
             throw new MethodArgumentNotValidException(null, result);
         }
-        
+
         return ResponseEntity.status(HttpStatus.CREATED).body(proveedorServicioImp.crearProveedor(proveedorRequest));
     }
-    
+
     @GetMapping
-    public ResponseEntity<ListProveedorResponse> listar(){
+    public ResponseEntity<ListProveedorResponse> listar() {
         return ResponseEntity.ok().body(proveedorServicioImp.listarProveedores());
     }
-    
+
     @GetMapping("/{id}")
-    public ResponseEntity<ProveedorResponse> buscarPorId (@PathVariable Long id){
+    public ResponseEntity<ProveedorResponse> buscarPorId(@PathVariable Long id) {
         return ResponseEntity.ok().body(proveedorServicioImp.findProveedorById(id));
     }
-    
+
     @DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity<Void> eliminar(@PathVariable Long id) throws Exception{
+    public ResponseEntity<Void> eliminar(@PathVariable Long id) throws Exception {
         proveedorServicioImp.eliminarProveedor(id);
         return ResponseEntity.noContent().build();
     }
-    
+
     @PutMapping("/{id}")
     @Transactional
-    public ResponseEntity<ProveedorResponse> actualizar (@PathVariable Long id, 
-            @Valid @ModelAttribute ProveedorRequest proveedorRequest, BindingResult result) throws Exception{
-        
-        if(result.hasErrors()){
+    public ResponseEntity<ProveedorResponse> actualizar(@PathVariable Long id,
+            @Valid @ModelAttribute ProveedorRequest proveedorRequest, BindingResult result) throws Exception {
+
+        if (result.hasErrors()) {
             throw new MethodArgumentNotValidException(null, result);
         }
-        
+
         return ResponseEntity.ok().body(proveedorServicioImp.modificarProveedor(proveedorRequest, id));
     }
-    
+
     @PatchMapping("baja/{id}")
     @Transactional
-    public ResponseEntity<ProveedorResponse> darBaja (@PathVariable Long id) throws Exception{
+    public ResponseEntity<ProveedorResponse> darBaja(@PathVariable Long id) throws Exception {
 
         proveedorServicioImp.darBajaProveedor(id);
-        
+
         return ResponseEntity.ok().body(proveedorServicioImp.findProveedorById(id));
     }
-    
+
     @PatchMapping("alta/{id}")
     @Transactional
-    public ResponseEntity<ProveedorResponse> darAlta (@PathVariable Long id) throws Exception{
-        
+    public ResponseEntity<ProveedorResponse> darAlta(@PathVariable Long id) throws Exception {
+
         proveedorServicioImp.darAltaProveedor(id);
-        
+
         return ResponseEntity.ok().body(proveedorServicioImp.findProveedorById(id));
+    }
+
+    @GetMapping ("/buscar/{barrio}")
+    public ResponseEntity<ListProveedorResponse> listarPorBarrio(@PathVariable String barrio) {
+        return ResponseEntity.ok().body(proveedorServicioImp.buscarProveedorPorBarrio(barrio));
     }
 }
