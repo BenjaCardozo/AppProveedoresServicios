@@ -63,6 +63,7 @@ public class ProveedorServicioImp implements ProveedorServicio {
             proveedor.setFoto(foto);
 
             proveedorRepositorio.save(proveedor);
+            fotoServicioImp.eliminarFoto(fotoId);
         }
         
         return mapper.map(proveedor);
