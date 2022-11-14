@@ -74,7 +74,7 @@ public class ProveedorControlador {
 
         proveedorServicioImp.darBajaProveedor(id);
         
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().body(proveedorServicioImp.findProveedorById(id));
     }
     
     @PatchMapping("alta/{id}")
@@ -83,6 +83,6 @@ public class ProveedorControlador {
         
         proveedorServicioImp.darAltaProveedor(id);
         
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().body(proveedorServicioImp.findProveedorById(id));
     }
 }
