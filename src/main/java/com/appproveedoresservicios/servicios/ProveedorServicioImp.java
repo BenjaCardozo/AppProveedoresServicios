@@ -1,12 +1,15 @@
 package com.appproveedoresservicios.servicios;
 
+import com.appproveedoresservicios.dto.ListProveedorResponse;
 import com.appproveedoresservicios.dto.ProveedorRequest;
 import com.appproveedoresservicios.dto.ProveedorResponse;
 import com.appproveedoresservicios.entidades.Foto;
 import com.appproveedoresservicios.entidades.Proveedor;
+import com.appproveedoresservicios.excepciones.DataNotFoundException;
 import com.appproveedoresservicios.excepciones.ResourceNotFoundException;
 import com.appproveedoresservicios.mapper.ProveedorMapper;
 import com.appproveedoresservicios.repositorios.ProveedorRepositorio;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -120,5 +123,20 @@ public class ProveedorServicioImp implements ProveedorServicio {
     @Override
     public ProveedorResponse findProveedorById(Long id) throws ResourceNotFoundException{
         return mapper.map(findById(id));
+    }
+
+    @Override
+    public ListProveedorResponse listarProveedores() {
+        
+        List<Proveedor> proveedores = proveedorRepositorio.findAll();
+        
+        if (proveedores.size()<1) {
+            throw new DataNotFoundException("No hay proveedores en la base de datos, agrega algunos.");
+        }
+        ListProveedorResponse proveedoresResponse = new ListProveedorResponse();
+        
+        proveedoresResponse.setProveedores(mapper.map(proveedores));
+
+        return proveedoresResponse;
     }
 }

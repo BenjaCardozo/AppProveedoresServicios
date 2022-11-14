@@ -6,6 +6,8 @@ import com.appproveedoresservicios.entidades.Foto;
 import com.appproveedoresservicios.entidades.Proveedor;
 import com.appproveedoresservicios.enums.Rol;
 import com.appproveedoresservicios.servicios.FotoServicioImp;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -55,5 +57,16 @@ public class ProveedorMapper {
         response.setDisponibilidad(proveedor.getDisponibilidad());
         
         return response;
+    }
+    
+    public List<ProveedorResponse> map (List<Proveedor> proveedores){
+        
+        List<ProveedorResponse> listResponse = new  ArrayList<>();
+        
+        for (Proveedor proveedor : proveedores) {
+            listResponse.add(map(proveedor));
+        }
+        
+        return listResponse;
     }
 }
