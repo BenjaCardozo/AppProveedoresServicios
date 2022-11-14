@@ -7,4 +7,6 @@ public interface FotoServicio {
     
     Foto guardarFoto(MultipartFile archivo);
     Foto actualizarFoto(MultipartFile archivo, Long idFoto);
+    Foto findFotoById(Long idFoto);
+    Foto eliminarFoto(Long idFoto);
 }
