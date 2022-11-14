@@ -1,9 +1,19 @@
 
 package com.appproveedoresservicios.servicios;
 
+
+import com.appproveedoresservicios.dto.ListProveedorResponse;
+import com.appproveedoresservicios.dto.ProveedorRequest;
+import com.appproveedoresservicios.dto.ProveedorResponse;
+import com.appproveedoresservicios.entidades.Foto;
 import com.appproveedoresservicios.entidades.Proveedor;
-import com.appproveedoresservicios.excepciones.AppExcepcion;
+import com.appproveedoresservicios.excepciones.DataNotFoundException;
+import com.appproveedoresservicios.excepciones.ResourceNotFoundException;
+import com.appproveedoresservicios.mapper.ProveedorMapper;
 import com.appproveedoresservicios.repositorios.ProveedorRepositorio;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,69 +22,129 @@ public class ProveedorServicioImp implements ProveedorServicio{
     
     @Autowired
     ProveedorRepositorio proveedorRepositorio;
-    
+
+
+    @Autowired
+    ProveedorMapper mapper;
+
+    @Autowired
+    FotoServicioImp fotoServicioImp;
 
     @Override
-    public void crearProveedor() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+    public ProveedorResponse crearProveedor(ProveedorRequest request) {
 
-    @Override
-    public void modificarProveedor() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+        Proveedor proveedor = mapper.map(request);
 
-    @Override
-    public void eliminarProveedor() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+        proveedorRepositorio.save(proveedor);
 
-    @Override
-    public void darBajaProveedor() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return mapper.map(proveedor);
     }
 
     @Override
-    public void darAltaProveedor() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public ProveedorResponse modificarProveedor(ProveedorRequest request, Long id) throws Exception {
+
+        Optional<Proveedor> respuesta = proveedorRepositorio.findById(id);
+        Proveedor proveedor = null;
+
+        if (respuesta.isPresent()) {
+
+            proveedor = respuesta.get();
+
+            proveedor.setNombre(request.getNombre());
+            proveedor.setCorreo(request.getCorreo());
+            proveedor.setClave(request.getClave());
+            proveedor.setContacto(request.getContacto());
+            proveedor.setDisponibilidad(request.getDisponibilidad());
+            proveedor.setBarrio(request.getBarrio());
+
+            Long fotoId = null;
+            if (request.getFoto() != null) {
+                fotoId = mapper.map(request).getFoto().getId();
+            }
+
+            Foto foto = fotoServicioImp.actualizarFoto(request.getFoto(), fotoId);
+
+            proveedor.setFoto(foto);
+
+            proveedorRepositorio.save(proveedor);
+            if (fotoId != null) {
+                fotoServicioImp.eliminarFoto(fotoId);
+            }
+        }
+
+        return mapper.map(proveedor);
     }
 
     @Override
-    public Proveedor buscarProveedor() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public Proveedor eliminarProveedor(Long id) throws Exception {
+        findById(id);
+        proveedorRepositorio.deleteById(id);
+        return null;
     }
 
-    
-    private void validar(String correo, String nombre, String clave, String clave2, String barrio, String contacto) throws AppExcepcion{
-        
-        if (correo.isEmpty() || correo == null) {
-            throw new AppExcepcion("El correo no puede estar vacío.");
+    @Override
+    public void darAltaProveedor(Long id) throws Exception {
+
+        if (id == null) {
+            throw new Exception("El id no puede ser nulo");
         }
-        
-        if (nombre.isEmpty() || nombre == null) {
-            throw new AppExcepcion("El nombre no puede estar vacío.");
+
+        Optional<Proveedor> respuesta = proveedorRepositorio.findById(id);
+        if (respuesta.isPresent()) {
+            Proveedor proveedor = respuesta.get();
+            proveedor.setAlta(Boolean.TRUE);
+
+            proveedorRepositorio.save(proveedor);
+
         }
-        
-        if (clave.length() < 8 || clave.length() > 16) {
-            throw new AppExcepcion("La clave tiene que ser de un mínimo de 8 caracteres y un máximo de 16 caracteres.");
-        }
-        
-        if (!clave.equals(clave2)){
-            throw new AppExcepcion("Las claves deben ser iguales.");
-        }
-        
-        if (barrio.isEmpty() || barrio == null) {
-            throw new AppExcepcion("El barrio no puede ser vacío.");
-        }
-        
-        if (contacto.isEmpty() || contacto == null) {
-            throw new AppExcepcion("El contacto no puede ser vacío.");
-        }
-        
-        if (contacto.isEmpty() || contacto == null) {
-            throw new AppExcepcion("El contacto no puede ser vacío.");
-        }
-        
+
     }
-    
+
+    @Override
+    public void darBajaProveedor(Long id) throws Exception {
+
+        if (id == null) {
+            throw new Exception("El id no puede ser nulo");
+        }
+
+        Optional<Proveedor> respuesta = proveedorRepositorio.findById(id);
+        if (respuesta.isPresent()) {
+            Proveedor proveedor = respuesta.get();
+            proveedor.setAlta(Boolean.FALSE);
+
+            proveedorRepositorio.save(proveedor);
+
+        }
+    }
+
+    @Override
+    public Proveedor findById(Long id) throws ResourceNotFoundException {
+        Optional<Proveedor> proveedor = proveedorRepositorio.findById(id);
+        if (proveedor.isPresent()) {
+            return proveedor.get();
+        } else {
+            throw new ResourceNotFoundException("Este proveedor no existe");
+        }
+    }
+
+    @Override
+    public ProveedorResponse findProveedorById(Long id) throws ResourceNotFoundException {
+        return mapper.map(findById(id));
+    }
+
+    @Override
+    public ListProveedorResponse listarProveedores() {
+
+        List<Proveedor> proveedores = proveedorRepositorio.findAll();
+
+        if (proveedores.size() < 1) {
+            throw new DataNotFoundException("No hay proveedores en la base de datos, agrega algunos.");
+        }
+        ListProveedorResponse proveedoresResponse = new ListProveedorResponse();
+
+        proveedoresResponse.setProveedores(mapper.map(proveedores));
+
+        return proveedoresResponse;
+    }
+
 }

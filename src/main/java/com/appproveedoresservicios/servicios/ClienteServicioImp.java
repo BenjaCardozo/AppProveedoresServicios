@@ -1,0 +1,125 @@
+package com.appproveedoresservicios.servicios;
+
+import com.appproveedoresservicios.dto.ClienteRequest;
+import com.appproveedoresservicios.dto.ClienteResponse;
+import com.appproveedoresservicios.entidades.Cliente;
+import com.appproveedoresservicios.entidades.Foto;
+import com.appproveedoresservicios.excepciones.ResourceNotFoundException;
+import com.appproveedoresservicios.mapper.ClienteMapper;
+import com.appproveedoresservicios.repositorios.ClienteRepositorio;
+import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class ClienteServicioImp implements ClienteServicio {
+
+    @Autowired
+    ClienteRepositorio clienteRepositorio;
+
+    @Autowired
+    ClienteMapper mapper;
+
+    @Autowired
+    FotoServicioImp fotoServicioImp;
+
+    @Override
+    public ClienteResponse crearCliente(ClienteRequest request){
+
+        Cliente cliente = mapper.map(request);
+
+        clienteRepositorio.save(cliente);
+
+        return mapper.map(cliente);
+
+    }
+
+    @Override
+    public ClienteResponse modificarCliente(ClienteRequest request, Long id) throws Exception {
+
+        Optional<Cliente> respuesta = clienteRepositorio.findById(id);
+        Cliente cliente = null;
+        
+        if (respuesta.isPresent()) {
+
+            cliente = respuesta.get();
+
+            cliente.setNombre(request.getNombre());
+            cliente.setCorreo(request.getCorreo());
+            cliente.setClave(request.getClave());
+            cliente.setContacto(request.getContacto());
+            cliente.setBarrio(request.getBarrio());
+
+            Long fotoId = null;
+            if (request.getFoto() != null) {
+                fotoId = cliente.getFoto().getId();
+            }
+
+            Foto foto = fotoServicioImp.actualizarFoto(request.getFoto(), fotoId);
+
+            cliente.setFoto(foto);
+
+            clienteRepositorio.save(cliente);
+        }
+        
+        return mapper.map(cliente);
+    }
+
+    @Override
+    public Cliente findById(Long id) throws ResourceNotFoundException {
+        Optional<Cliente> cliente = clienteRepositorio.findById(id);
+        if (cliente.isPresent()) {
+            return cliente.get();
+        } else {
+            throw new ResourceNotFoundException("Este cliente no existe.");
+        }
+    }
+
+    @Override
+    public ClienteResponse findClienteById(Long id) throws ResourceNotFoundException{
+        return mapper.map(findById(id));
+    }
+    
+    @Override
+    public Cliente eliminarCliente(Long id) throws Exception {
+        findById(id);
+        clienteRepositorio.deleteById(id);
+        return null;
+    }
+
+    @Override
+    public void darBajaCliente(Long id) throws Exception {
+
+        if (id == null) {
+            throw new Exception("El id no puede ser nulo");
+        }
+
+        Optional<Cliente> respuesta = clienteRepositorio.findById(id);
+        if (respuesta.isPresent()) {
+            Cliente cliente = respuesta.get();
+            cliente.setAlta(Boolean.FALSE);
+
+            clienteRepositorio.save(cliente);
+
+        }
+
+    }
+
+    @Override
+    public void darAltaCliente(Long id) throws Exception {
+
+        if (id == null) {
+            throw new Exception("El id no puede ser nulo");
+        }
+
+        Optional<Cliente> respuesta = clienteRepositorio.findById(id);
+        if (respuesta.isPresent()) {
+            Cliente cliente = respuesta.get();
+            cliente.setAlta(Boolean.TRUE);
+
+            clienteRepositorio.save(cliente);
+
+        }
+
+    }
+}
