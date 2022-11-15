@@ -64,8 +64,6 @@ public class ProveedorServicioImp implements ProveedorServicio{
 
             Foto foto = fotoServicioImp.actualizarFoto(request.getFoto(), fotoId);
 
-            proveedor.setFoto(foto);
-
             proveedorRepositorio.save(proveedor);
             if (fotoId != null) {
                 fotoServicioImp.eliminarFoto(fotoId);
@@ -130,6 +128,21 @@ public class ProveedorServicioImp implements ProveedorServicio{
     @Override
     public ProveedorResponse findProveedorById(Long id) throws ResourceNotFoundException {
         return mapper.map(findById(id));
+    }
+    
+     
+    @Override
+    public ListProveedorResponse buscarProveedorPorBarrio(String barrio) throws ResourceNotFoundException {
+        List<Proveedor> proveedores = proveedorRepositorio.findByBarrio(barrio);
+        
+        if (proveedores.size() < 1) {
+            throw new DataNotFoundException("No hay proveedores en la base de datos, agrega algunos.");
+        }
+        ListProveedorResponse proveedoresResponse = new ListProveedorResponse();
+
+        proveedoresResponse.setProveedores(mapper.map(proveedores));
+
+        return proveedoresResponse;
     }
 
     @Override
