@@ -15,7 +15,7 @@ public interface ProveedorServicio {
     
     ProveedorResponse modificarProveedor(ProveedorRequest request, Long id) throws Exception;
     
-    Proveedor eliminarProveedor(Long id) throws Exception;
+    void eliminarProveedor(Long id) throws Exception;
     
     void darBajaProveedor(Long id) throws Exception;
     
