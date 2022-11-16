@@ -8,7 +8,6 @@ import com.appproveedoresservicios.entidades.Proveedor;
 import com.appproveedoresservicios.excepciones.DataNotFoundException;
 import com.appproveedoresservicios.excepciones.ResourceNotFoundException;
 import com.appproveedoresservicios.mapper.ProveedorMapper;
-import com.appproveedoresservicios.repositorios.FotoRepositorio;
 import com.appproveedoresservicios.repositorios.ProveedorRepositorio;
 import java.util.List;
 import java.util.Optional;
@@ -60,6 +59,7 @@ public class ProveedorServicioImp implements ProveedorServicio {
             }
 
             Foto foto = fotoServicioImp.actualizarFoto(request.getFoto(), fotoId);
+            proveedor.setFoto(foto);
 
             proveedorRepositorio.save(proveedor);
         }
@@ -69,6 +69,7 @@ public class ProveedorServicioImp implements ProveedorServicio {
 
     @Override
     public void eliminarProveedor(Long id) throws Exception {
+        
         findById(id);
         fotoServicioImp.eliminarFoto(findById(id).getFoto().getId());
         proveedorRepositorio.deleteById(id);
@@ -83,13 +84,12 @@ public class ProveedorServicioImp implements ProveedorServicio {
 
         Optional<Proveedor> respuesta = proveedorRepositorio.findById(id);
         if (respuesta.isPresent()) {
+            
             Proveedor proveedor = respuesta.get();
             proveedor.setAlta(Boolean.TRUE);
 
             proveedorRepositorio.save(proveedor);
-
         }
-
     }
 
     @Override
@@ -101,17 +101,19 @@ public class ProveedorServicioImp implements ProveedorServicio {
 
         Optional<Proveedor> respuesta = proveedorRepositorio.findById(id);
         if (respuesta.isPresent()) {
+            
             Proveedor proveedor = respuesta.get();
             proveedor.setAlta(Boolean.FALSE);
 
             proveedorRepositorio.save(proveedor);
-
         }
     }
 
     @Override
     public Proveedor findById(Long id) throws ResourceNotFoundException {
+        
         Optional<Proveedor> proveedor = proveedorRepositorio.findById(id);
+        
         if (proveedor.isPresent()) {
             return proveedor.get();
         } else {
@@ -127,6 +129,7 @@ public class ProveedorServicioImp implements ProveedorServicio {
      
     @Override
     public ListProveedorResponse buscarProveedorPorBarrio(String barrio) throws ResourceNotFoundException {
+        
         List<Proveedor> proveedores = proveedorRepositorio.findByBarrio(barrio);
         
         if (proveedores.size() < 1) {
@@ -147,6 +150,7 @@ public class ProveedorServicioImp implements ProveedorServicio {
         if (proveedores.size() < 1) {
             throw new DataNotFoundException("No hay proveedores en la base de datos, agrega algunos.");
         }
+        
         ListProveedorResponse proveedoresResponse = new ListProveedorResponse();
 
         proveedoresResponse.setProveedores(mapper.map(proveedores));
