@@ -8,6 +8,7 @@ import com.appproveedoresservicios.entidades.Proveedor;
 import com.appproveedoresservicios.excepciones.DataNotFoundException;
 import com.appproveedoresservicios.excepciones.ResourceNotFoundException;
 import com.appproveedoresservicios.mapper.ProveedorMapper;
+import com.appproveedoresservicios.repositorios.FotoRepositorio;
 import com.appproveedoresservicios.repositorios.ProveedorRepositorio;
 import java.util.List;
 import java.util.Optional;
@@ -54,26 +55,23 @@ public class ProveedorServicioImp implements ProveedorServicio {
             proveedor.setBarrio(request.getBarrio());
 
             Long fotoId = null;
-            if (request.getFoto() != null) {
-                fotoId = mapper.map(request).getFoto().getId();
+            if (proveedor.getFoto() != null) {
+                fotoId = proveedor.getFoto().getId();
             }
 
             Foto foto = fotoServicioImp.actualizarFoto(request.getFoto(), fotoId);
 
             proveedorRepositorio.save(proveedor);
-            if (fotoId != null) {
-                fotoServicioImp.eliminarFoto(fotoId);
-            }
         }
 
         return mapper.map(proveedor);
     }
 
     @Override
-    public Proveedor eliminarProveedor(Long id) throws Exception {
+    public void eliminarProveedor(Long id) throws Exception {
         findById(id);
+        fotoServicioImp.eliminarFoto(findById(id).getFoto().getId());
         proveedorRepositorio.deleteById(id);
-        return null;
     }
 
     @Override

@@ -67,9 +67,8 @@ public class FotoServicioImp implements FotoServicio{
     }
 
     @Override
-    public Foto eliminarFoto(Long idFoto) {
+    public void eliminarFoto(Long idFoto) {
         findFotoById(idFoto);
         fotoRepositorio.deleteById(idFoto);
-        return null;
     }
 }
