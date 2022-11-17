@@ -12,6 +12,5 @@ public class ClienteResponse {
     private String barrio;
     private Boolean alta;
     private Rol rol; 
-    
     private String contacto;
 }

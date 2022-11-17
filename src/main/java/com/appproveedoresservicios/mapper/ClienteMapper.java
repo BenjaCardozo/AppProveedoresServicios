@@ -6,6 +6,8 @@ import com.appproveedoresservicios.entidades.Cliente;
 import com.appproveedoresservicios.entidades.Foto;
 import com.appproveedoresservicios.enums.Rol;
 import com.appproveedoresservicios.servicios.FotoServicioImp;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -50,4 +52,16 @@ public class ClienteMapper {
 
         return response;
     }
+    
+        public List<ClienteResponse> map (List<Cliente> clientes){
+        
+        List<ClienteResponse> listResponse = new  ArrayList<>();
+        
+        for (Cliente cliente : clientes) {
+            listResponse.add(map(cliente));
+        }
+        
+        return listResponse;
+    }
+    
 }
