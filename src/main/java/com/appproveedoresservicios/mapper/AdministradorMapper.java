@@ -23,7 +23,6 @@ public class AdministradorMapper {
         administrador.setNombre(administradorRequest.getNombre());
         administrador.setCorreo(administradorRequest.getCorreo());
         administrador.setClave(administradorRequest.getClave());
-        administrador.setBarrio(administradorRequest.getBarrio());
         Foto foto = fotoServicioImp.guardarFoto(administradorRequest.getFoto());
         administrador.setFoto(foto);
         administrador.setAlta(true);
@@ -39,7 +38,6 @@ public class AdministradorMapper {
         response.setId(administrador.getId());
         response.setNombre(administrador.getNombre());
         response.setCorreo(administrador.getCorreo());
-        response.setBarrio(administrador.getBarrio());
         response.setAlta(administrador.getAlta());
         response.setRol(administrador.getRol());
         

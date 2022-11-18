@@ -46,7 +46,6 @@ public class AdministradorServicioImp implements AdministradorServicio {
             admin.setNombre(request.getNombre());
             admin.setCorreo(request.getCorreo());
             admin.setClave(request.getClave());
-            admin.setBarrio(request.getBarrio());
 
             Long fotoId = null;
             if (admin.getFoto() != null) {

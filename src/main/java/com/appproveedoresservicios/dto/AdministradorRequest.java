@@ -28,8 +28,5 @@ public class AdministradorRequest {
     @Size(min = 8, max = 16, message = "La contraseña debe tener entre 8 y 16 caracteres.")
     private String clave2;
 
-    @NotEmpty(message = "El campo 'barrio' no puede estar vacío.")
-    private String barrio;
-
     private MultipartFile foto;
 }

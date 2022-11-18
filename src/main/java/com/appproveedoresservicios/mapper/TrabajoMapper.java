@@ -12,9 +12,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class TrabajoMapper {
     
-    @Autowired
-    TrabajoServicioImp trabajoServicioImp;
-    
     public Trabajo map(TrabajoRequest trabajoRequest){
         
         Trabajo trabajo = new Trabajo();
