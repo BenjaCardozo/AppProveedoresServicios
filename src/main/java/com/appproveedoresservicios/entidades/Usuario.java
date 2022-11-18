@@ -1,20 +1,28 @@
 package com.appproveedoresservicios.entidades;
 
 import com.appproveedoresservicios.enums.Rol;
+import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToOne;
 import lombok.Data;
 
-@MappedSuperclass
+//@MappedSuperclass
+@Entity
 @Data
-public abstract class Persona {
+public class Usuario {
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    protected Long id;
     
     protected String nombre;
     protected String correo;
     protected String clave;
-    protected String barrio;
 
     @OneToOne
     protected Foto foto;

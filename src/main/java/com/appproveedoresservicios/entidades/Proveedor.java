@@ -8,14 +8,11 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import lombok.Data;
 
-@Data
 @Entity
-public class Proveedor extends Persona {
+@Data
+public class Proveedor extends Usuario {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected Long id;
-
+    private String barrio;
     private String contacto;
     private String descripcion;
     private String rubro;
