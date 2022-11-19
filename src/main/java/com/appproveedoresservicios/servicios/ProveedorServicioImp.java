@@ -6,6 +6,7 @@ import com.appproveedoresservicios.dto.ProveedorResponse;
 import com.appproveedoresservicios.entidades.Foto;
 import com.appproveedoresservicios.entidades.Proveedor;
 import com.appproveedoresservicios.excepciones.DataNotFoundException;
+import com.appproveedoresservicios.excepciones.EmailAlreadyInUseException;
 import com.appproveedoresservicios.excepciones.ResourceNotFoundException;
 import com.appproveedoresservicios.mapper.ProveedorMapper;
 import com.appproveedoresservicios.repositorios.ProveedorRepositorio;
@@ -25,9 +26,16 @@ public class ProveedorServicioImp implements ProveedorServicio {
 
     @Autowired
     FotoServicioImp fotoServicioImp;
+    
+    @Autowired
+    UsuarioServicioImp usuarioServicioImp;
 
     @Override
-    public ProveedorResponse crearProveedor(ProveedorRequest request) {
+    public ProveedorResponse crearProveedor(ProveedorRequest request) throws EmailAlreadyInUseException{
+        
+        if(usuarioServicioImp.buscaPorCorreo(request.getCorreo())){
+           throw new EmailAlreadyInUseException("Ese correo ya está en uso, ingresa otro.");
+        }
 
         Proveedor proveedor = mapper.map(request);
 
@@ -117,13 +125,13 @@ public class ProveedorServicioImp implements ProveedorServicio {
         if (proveedor.isPresent()) {
             return proveedor.get();
         } else {
-            throw new ResourceNotFoundException("Este proveedor no existe");
+            throw new ResourceNotFoundException("Ese proveedor no existe");
         }
     }
 
     @Override
     public ProveedorResponse findProveedorById(Long id) throws ResourceNotFoundException {
-        return mapper.map(findById(id));
+        return mapper.map((Proveedor)usuarioServicioImp.findById(id));
     }
     
      

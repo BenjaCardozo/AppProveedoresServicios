@@ -6,6 +6,7 @@ import com.appproveedoresservicios.dto.ListClienteResponse;
 import com.appproveedoresservicios.entidades.Cliente;
 import com.appproveedoresservicios.entidades.Foto;
 import com.appproveedoresservicios.excepciones.DataNotFoundException;
+import com.appproveedoresservicios.excepciones.EmailAlreadyInUseException;
 import com.appproveedoresservicios.excepciones.ResourceNotFoundException;
 import com.appproveedoresservicios.mapper.ClienteMapper;
 import com.appproveedoresservicios.repositorios.ClienteRepositorio;
@@ -25,10 +26,17 @@ public class ClienteServicioImp implements ClienteServicio {
 
     @Autowired
     FotoServicioImp fotoServicioImp;
+    
+    @Autowired
+    UsuarioServicioImp usuarioServicioImp;
 
     @Override
-    public ClienteResponse crearCliente(ClienteRequest request) {
+    public ClienteResponse crearCliente(ClienteRequest request) throws EmailAlreadyInUseException{
 
+        if(usuarioServicioImp.buscaPorCorreo(request.getCorreo())){
+           throw new EmailAlreadyInUseException("Ese correo ya está en uso, ingresa otro.");
+        }
+        
         Cliente cliente = mapper.map(request);
 
         clienteRepositorio.save(cliente);

@@ -3,6 +3,7 @@ package com.appproveedoresservicios.controladores;
 import com.appproveedoresservicios.dto.ClienteRequest;
 import com.appproveedoresservicios.dto.ClienteResponse;
 import com.appproveedoresservicios.dto.ListClienteResponse;
+import com.appproveedoresservicios.excepciones.EmailAlreadyInUseException;
 import com.appproveedoresservicios.servicios.ClienteServicioImp;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
@@ -30,7 +31,7 @@ public class ClienteControlador {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<ClienteResponse> crear(@Valid @ModelAttribute ClienteRequest clienteRequest, BindingResult result) throws MethodArgumentNotValidException {
+    public ResponseEntity<ClienteResponse> crear(@Valid @ModelAttribute ClienteRequest clienteRequest, BindingResult result) throws MethodArgumentNotValidException, EmailAlreadyInUseException {
 
         if (result.hasErrors()) {
             throw new MethodArgumentNotValidException(null, result);
