@@ -3,7 +3,6 @@ package com.appproveedoresservicios.servicios;
 import com.appproveedoresservicios.dto.AuthenticationRequest;
 import com.appproveedoresservicios.dto.AuthenticationResponse;
 import com.appproveedoresservicios.entidades.Usuario;
-import com.appproveedoresservicios.excepciones.InvalidCredentialsException;
 import com.appproveedoresservicios.excepciones.ResourceNotFoundException;
 import com.appproveedoresservicios.repositorios.UsuarioRepositorio;
 import com.appproveedoresservicios.seguridad.JwtTokenProvider;
@@ -23,14 +22,14 @@ import org.springframework.stereotype.Service;
 
 //, UserDetailsService
 @Service
-public class UsuarioServicioImp implements UsuarioServicio, UserDetailsService{
+public class UsuarioServicioImp implements UsuarioServicio{
 
     @Autowired
     UsuarioRepositorio usuarioRepositorio;
     
-    @Autowired
-    FotoServicioImp fotoServicioImp;
-    
+    //@Autowired
+    //FotoServicioImp fotoServicioImp;
+    /*
     @Autowired
     private AuthenticationManager authenticationManager;
     
@@ -65,17 +64,17 @@ public class UsuarioServicioImp implements UsuarioServicio, UserDetailsService{
             
             permisos.add(p);
             
-            /*ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+            ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
             
             HttpSession sesion = attr.getRequest().getSession(true);
             
-            sesion.setAttribute("usuariosession", usuario);*/
+            sesion.setAttribute("usuariosession", usuario);
             
             return  new User(usuario.getCorreo(), usuario.getClave(), permisos);
         }else{
             return null;
         }
-    }
+    }*/
     
     /*
     @Override

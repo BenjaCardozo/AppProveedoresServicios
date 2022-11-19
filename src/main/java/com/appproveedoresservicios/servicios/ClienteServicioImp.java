@@ -13,6 +13,7 @@ import com.appproveedoresservicios.repositorios.ClienteRepositorio;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -29,6 +30,9 @@ public class ClienteServicioImp implements ClienteServicio {
     
     @Autowired
     UsuarioServicioImp usuarioServicioImp;
+    
+    @Autowired
+    BCryptPasswordEncoder passwordEncoder;
 
     @Override
     public ClienteResponse crearCliente(ClienteRequest request) throws EmailAlreadyInUseException{
@@ -57,7 +61,7 @@ public class ClienteServicioImp implements ClienteServicio {
 
             cliente.setNombre(request.getNombre());
             cliente.setCorreo(request.getCorreo());
-            cliente.setClave(request.getClave());
+            cliente.setClave(passwordEncoder.encode(request.getClave()));
             cliente.setContacto(request.getContacto());
             cliente.setBarrio(request.getBarrio());
 

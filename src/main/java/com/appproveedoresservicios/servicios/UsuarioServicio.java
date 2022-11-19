@@ -1,14 +1,11 @@
 package com.appproveedoresservicios.servicios;
 
-import com.appproveedoresservicios.dto.AuthenticationRequest;
-import com.appproveedoresservicios.dto.AuthenticationResponse;
 import com.appproveedoresservicios.entidades.Usuario;
-import com.appproveedoresservicios.excepciones.InvalidCredentialsException;
 import com.appproveedoresservicios.excepciones.ResourceNotFoundException;
 
 public interface UsuarioServicio {
     
-    AuthenticationResponse login(AuthenticationRequest authenticationRequest) throws InvalidCredentialsException;
+    //AuthenticationResponse login(AuthenticationRequest authenticationRequest) throws InvalidCredentialsException;
     
     //void eliminarUsuario(Long id) throws Exception;
     

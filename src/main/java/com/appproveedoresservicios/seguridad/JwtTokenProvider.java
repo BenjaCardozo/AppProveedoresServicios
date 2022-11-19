@@ -4,7 +4,6 @@
  */
 package com.appproveedoresservicios.seguridad;
 
-import com.appproveedoresservicios.entidades.Usuario;
 import com.appproveedoresservicios.excepciones.ServicioAppException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -13,7 +12,6 @@ import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
-import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Date;
 import org.springframework.stereotype.Component;
 
@@ -22,9 +20,8 @@ public class JwtTokenProvider {
 
     private static final String SECRET_KEY = "appproveedoresservicios";
 
-    public String generarToken(UserDetails userDetails) {
-        Usuario user = (Usuario) userDetails;
-        return crearToken(user.getCorreo());
+    public String generarToken(String username) {
+        return crearToken(username);
     }
 
     public String crearToken(String username) {

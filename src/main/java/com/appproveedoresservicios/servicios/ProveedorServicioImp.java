@@ -13,6 +13,7 @@ import com.appproveedoresservicios.repositorios.ProveedorRepositorio;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -29,6 +30,9 @@ public class ProveedorServicioImp implements ProveedorServicio {
     
     @Autowired
     UsuarioServicioImp usuarioServicioImp;
+    
+    @Autowired
+    BCryptPasswordEncoder passwordEncoder;
 
     @Override
     public ProveedorResponse crearProveedor(ProveedorRequest request) throws EmailAlreadyInUseException{
@@ -56,7 +60,7 @@ public class ProveedorServicioImp implements ProveedorServicio {
 
             proveedor.setNombre(request.getNombre());
             proveedor.setCorreo(request.getCorreo());
-            proveedor.setClave(request.getClave());
+            proveedor.setClave(passwordEncoder.encode(request.getClave()));
             proveedor.setContacto(request.getContacto());
             proveedor.setDisponibilidad(request.getDisponibilidad());
             proveedor.setBarrio(request.getBarrio());

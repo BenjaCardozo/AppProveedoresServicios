@@ -127,6 +127,6 @@ public class AdministradorServicioImp implements AdministradorServicio {
     
     @Override
     public AdministradorResponse findAdminById(Long id) throws ResourceNotFoundException {
-        return mapper.map((Administrador)usuarioServicioImp.findById(id));
+        return mapper.map(findById(id));
     }
 }
