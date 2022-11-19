@@ -7,6 +7,7 @@ import com.appproveedoresservicios.entidades.Foto;
 import com.appproveedoresservicios.enums.Rol;
 import com.appproveedoresservicios.servicios.FotoServicioImp;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -15,6 +16,9 @@ public class AdministradorMapper {
     @Autowired
     FotoServicioImp fotoServicioImp;
     
+    @Autowired
+    BCryptPasswordEncoder passwordEncoder;
+    
     public Administrador map(AdministradorRequest administradorRequest){
         
         Administrador administrador = new Administrador();
@@ -22,7 +26,7 @@ public class AdministradorMapper {
         //atributos de persona/administrador
         administrador.setNombre(administradorRequest.getNombre());
         administrador.setCorreo(administradorRequest.getCorreo());
-        administrador.setClave(administradorRequest.getClave());
+        administrador.setClave(passwordEncoder.encode(administradorRequest.getClave()));
         Foto foto = fotoServicioImp.guardarFoto(administradorRequest.getFoto());
         administrador.setFoto(foto);
         administrador.setAlta(true);

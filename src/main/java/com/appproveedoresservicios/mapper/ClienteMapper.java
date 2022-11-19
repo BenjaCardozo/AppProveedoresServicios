@@ -9,6 +9,7 @@ import com.appproveedoresservicios.servicios.FotoServicioImp;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -16,6 +17,9 @@ public class ClienteMapper {
     
     @Autowired
     FotoServicioImp fotoServicioImp;
+    
+    @Autowired
+    BCryptPasswordEncoder passwordEncoder;
 
     public Cliente map(ClienteRequest clienteRequest) {
 
@@ -24,7 +28,7 @@ public class ClienteMapper {
         //atributos de persona
         cliente.setNombre(clienteRequest.getNombre());
         cliente.setCorreo(clienteRequest.getCorreo());
-        cliente.setClave(clienteRequest.getClave());
+        cliente.setClave(passwordEncoder.encode(clienteRequest.getClave()));
         cliente.setBarrio(clienteRequest.getBarrio());
         Foto foto = fotoServicioImp.guardarFoto(clienteRequest.getFoto());
         cliente.setFoto(foto);
