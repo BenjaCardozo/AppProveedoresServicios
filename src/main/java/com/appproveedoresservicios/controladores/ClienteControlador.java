@@ -1,8 +1,8 @@
 package com.appproveedoresservicios.controladores;
 
-import com.appproveedoresservicios.dto.ClienteRequest;
-import com.appproveedoresservicios.dto.ClienteResponse;
-import com.appproveedoresservicios.dto.ListClienteResponse;
+import com.appproveedoresservicios.dto.request.ClienteRequest;
+import com.appproveedoresservicios.dto.response.ClienteResponse;
+import com.appproveedoresservicios.dto.response.ListClienteResponse;
 import com.appproveedoresservicios.excepciones.EmailAlreadyInUseException;
 import com.appproveedoresservicios.servicios.ClienteServicioImp;
 import javax.transaction.Transactional;

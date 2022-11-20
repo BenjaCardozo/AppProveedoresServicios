@@ -1,7 +1,7 @@
 package com.appproveedoresservicios.controladores;
 
-import com.appproveedoresservicios.dto.AdministradorRequest;
-import com.appproveedoresservicios.dto.AdministradorResponse;
+import com.appproveedoresservicios.dto.request.AdministradorRequest;
+import com.appproveedoresservicios.dto.response.AdministradorResponse;
 import com.appproveedoresservicios.excepciones.EmailAlreadyInUseException;
 import com.appproveedoresservicios.servicios.AdministradorServicioImp;
 import javax.transaction.Transactional;

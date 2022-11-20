@@ -1,7 +1,5 @@
-package com.appproveedoresservicios.dto;
+package com.appproveedoresservicios.dto.response;
 
-import com.appproveedoresservicios.entidades.Cliente;
-import com.appproveedoresservicios.entidades.Proveedor;
 import java.time.LocalDate;
 import lombok.Data;
 
@@ -9,8 +7,8 @@ import lombok.Data;
 public class TrabajoResponse {
     
     private Long id;
-    private Proveedor proveedor;
-    private Cliente cliente;
+    private Long idProveedor;
+    private Long idCliente;
     private LocalDate fechaInicio;
     private LocalDate fechaFin;
     private Boolean alta;

@@ -1,4 +1,4 @@
-package com.appproveedoresservicios.dto;
+package com.appproveedoresservicios.dto.request;
 
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Email;

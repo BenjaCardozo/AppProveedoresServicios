@@ -1,7 +1,7 @@
 package com.appproveedoresservicios.mapper;
 
-import com.appproveedoresservicios.dto.AdministradorRequest;
-import com.appproveedoresservicios.dto.AdministradorResponse;
+import com.appproveedoresservicios.dto.request.AdministradorRequest;
+import com.appproveedoresservicios.dto.response.AdministradorResponse;
 import com.appproveedoresservicios.entidades.Administrador;
 import com.appproveedoresservicios.entidades.Foto;
 import com.appproveedoresservicios.enums.Rol;

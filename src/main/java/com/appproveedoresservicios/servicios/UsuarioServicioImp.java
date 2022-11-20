@@ -1,7 +1,7 @@
 package com.appproveedoresservicios.servicios;
 
-import com.appproveedoresservicios.dto.AuthenticationRequest;
-import com.appproveedoresservicios.dto.AuthenticationResponse;
+import com.appproveedoresservicios.dto.request.AuthenticationRequest;
+import com.appproveedoresservicios.dto.response.AuthenticationResponse;
 import com.appproveedoresservicios.entidades.Usuario;
 import com.appproveedoresservicios.excepciones.ResourceNotFoundException;
 import com.appproveedoresservicios.repositorios.UsuarioRepositorio;
