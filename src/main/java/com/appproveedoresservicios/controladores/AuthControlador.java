@@ -1,7 +1,7 @@
 package com.appproveedoresservicios.controladores;
 
-import com.appproveedoresservicios.dto.AuthenticationRequest;
-import com.appproveedoresservicios.dto.AuthenticationResponse;
+import com.appproveedoresservicios.dto.request.AuthenticationRequest;
+import com.appproveedoresservicios.dto.response.AuthenticationResponse;
 import com.appproveedoresservicios.seguridad.JwtTokenProvider;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

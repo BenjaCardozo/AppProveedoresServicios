@@ -1,13 +1,14 @@
 package com.appproveedoresservicios.servicios;
 
-import com.appproveedoresservicios.dto.ListTrabajoResponse;
-import com.appproveedoresservicios.dto.TrabajoRequest;
-import com.appproveedoresservicios.dto.TrabajoResponse;
+import com.appproveedoresservicios.dto.response.ListTrabajoResponse;
+import com.appproveedoresservicios.dto.request.TrabajoRequest;
+import com.appproveedoresservicios.dto.response.TrabajoResponse;
 import com.appproveedoresservicios.entidades.Trabajo;
 import com.appproveedoresservicios.excepciones.DataNotFoundException;
 import com.appproveedoresservicios.excepciones.ResourceNotFoundException;
 import com.appproveedoresservicios.mapper.TrabajoMapper;
 import com.appproveedoresservicios.repositorios.TrabajoRepositorio;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,24 @@ public class TrabajoServicioImp implements TrabajoServicio {
 
         trabajoRepositorio.save(trabajo);
 
+        return mapper.map(trabajo);
+    }
+    
+    @Override
+    public TrabajoResponse trabajoConFechaFinal(TrabajoRequest request, Long id){
+        Optional<Trabajo> respuesta = trabajoRepositorio.findById(id);
+        
+        Trabajo trabajo = null;
+        
+        if(respuesta.isPresent()){
+            
+            trabajo = respuesta.get();
+            
+            trabajo.setFechaFin(LocalDate.now());
+            
+            trabajoRepositorio.save(trabajo);
+        }
+        
         return mapper.map(trabajo);
     }
 

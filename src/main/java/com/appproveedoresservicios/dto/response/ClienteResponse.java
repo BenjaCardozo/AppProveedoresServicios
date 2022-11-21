@@ -1,10 +1,10 @@
-package com.appproveedoresservicios.dto;
+package com.appproveedoresservicios.dto.response;
 
 import com.appproveedoresservicios.enums.Rol;
 import lombok.Data;
 
 @Data
-public class ProveedorResponse {
+public class ClienteResponse {
     
     private Long id;
     private String nombre;
@@ -12,9 +12,5 @@ public class ProveedorResponse {
     private String barrio;
     private Boolean alta;
     private Rol rol; 
-    
     private String contacto;
-    private String descripcion;
-    private String rubro;
-    private String disponibilidad;
 }

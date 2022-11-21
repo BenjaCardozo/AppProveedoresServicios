@@ -1,4 +1,4 @@
-package com.appproveedoresservicios.dto;
+package com.appproveedoresservicios.dto.response;
 
 import java.util.List;
 import lombok.Data;
