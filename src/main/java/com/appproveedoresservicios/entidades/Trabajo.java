@@ -12,7 +12,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Data
 @Entity
-
 public class Trabajo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

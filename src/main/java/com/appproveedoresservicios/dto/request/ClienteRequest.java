@@ -1,4 +1,9 @@
-package com.appproveedoresservicios.dto;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.appproveedoresservicios.dto.request;
 
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Email;
@@ -8,9 +13,9 @@ import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
 @Data
-public class AdministradorRequest {
-        
-    @NotEmpty(message = "El campo 'nombre' no puede estar vacío.")
+public class ClienteRequest {
+
+     @NotEmpty(message = "El campo 'nombre' no puede estar vacío.")
     private String nombre;
 
     @NotEmpty(message = "El campo 'correo' no puede estar vacío.")
@@ -32,4 +37,8 @@ public class AdministradorRequest {
     private String barrio;
 
     private MultipartFile foto;
+
+    @NotEmpty(message = "El campo 'contacto' no puede estar vacío.")
+    private String contacto;
+    
 }

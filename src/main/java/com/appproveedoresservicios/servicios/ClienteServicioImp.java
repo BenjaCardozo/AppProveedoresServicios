@@ -1,17 +1,19 @@
 package com.appproveedoresservicios.servicios;
 
-import com.appproveedoresservicios.dto.ClienteRequest;
-import com.appproveedoresservicios.dto.ClienteResponse;
-import com.appproveedoresservicios.dto.ListClienteResponse;
+import com.appproveedoresservicios.dto.request.ClienteRequest;
+import com.appproveedoresservicios.dto.response.ClienteResponse;
+import com.appproveedoresservicios.dto.response.ListClienteResponse;
 import com.appproveedoresservicios.entidades.Cliente;
 import com.appproveedoresservicios.entidades.Foto;
 import com.appproveedoresservicios.excepciones.DataNotFoundException;
+import com.appproveedoresservicios.excepciones.EmailAlreadyInUseException;
 import com.appproveedoresservicios.excepciones.ResourceNotFoundException;
 import com.appproveedoresservicios.mapper.ClienteMapper;
 import com.appproveedoresservicios.repositorios.ClienteRepositorio;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -25,10 +27,20 @@ public class ClienteServicioImp implements ClienteServicio {
 
     @Autowired
     FotoServicioImp fotoServicioImp;
+    
+    @Autowired
+    UsuarioServicioImp usuarioServicioImp;
+    
+    @Autowired
+    BCryptPasswordEncoder passwordEncoder;
 
     @Override
-    public ClienteResponse crearCliente(ClienteRequest request) {
+    public ClienteResponse crearCliente(ClienteRequest request) throws EmailAlreadyInUseException{
 
+        if(usuarioServicioImp.buscaPorCorreo(request.getCorreo())){
+           throw new EmailAlreadyInUseException("Ese correo ya está en uso, ingresa otro.");
+        }
+        
         Cliente cliente = mapper.map(request);
 
         clienteRepositorio.save(cliente);
@@ -49,7 +61,7 @@ public class ClienteServicioImp implements ClienteServicio {
 
             cliente.setNombre(request.getNombre());
             cliente.setCorreo(request.getCorreo());
-            cliente.setClave(request.getClave());
+            cliente.setClave(passwordEncoder.encode(request.getClave()));
             cliente.setContacto(request.getContacto());
             cliente.setBarrio(request.getBarrio());
 

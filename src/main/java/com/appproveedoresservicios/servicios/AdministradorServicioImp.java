@@ -1,14 +1,16 @@
 package com.appproveedoresservicios.servicios;
 
-import com.appproveedoresservicios.dto.AdministradorRequest;
-import com.appproveedoresservicios.dto.AdministradorResponse;
+import com.appproveedoresservicios.dto.request.AdministradorRequest;
+import com.appproveedoresservicios.dto.response.AdministradorResponse;
 import com.appproveedoresservicios.entidades.Administrador;
 import com.appproveedoresservicios.entidades.Foto;
 import com.appproveedoresservicios.excepciones.ResourceNotFoundException;
+import com.appproveedoresservicios.excepciones.EmailAlreadyInUseException;
 import com.appproveedoresservicios.mapper.AdministradorMapper;
 import com.appproveedoresservicios.repositorios.AdministradorRepositorio;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,9 +24,19 @@ public class AdministradorServicioImp implements AdministradorServicio {
 
     @Autowired
     FotoServicioImp fotoServicioImp;
+    
+    @Autowired
+    UsuarioServicioImp usuarioServicioImp;
+    
+    @Autowired
+    BCryptPasswordEncoder passwordEncoder;
 
     @Override
-    public AdministradorResponse crearAdmin(AdministradorRequest request) {
+    public AdministradorResponse crearAdmin(AdministradorRequest request) throws EmailAlreadyInUseException{
+        
+        if(usuarioServicioImp.buscaPorCorreo(request.getCorreo())){
+           throw new EmailAlreadyInUseException("Ese correo ya está en uso, ingresa otro.");
+        }
         
         Administrador admin = mapper.map(request);
 
@@ -45,8 +57,7 @@ public class AdministradorServicioImp implements AdministradorServicio {
 
             admin.setNombre(request.getNombre());
             admin.setCorreo(request.getCorreo());
-            admin.setClave(request.getClave());
-            admin.setBarrio(request.getBarrio());
+            admin.setClave(passwordEncoder.encode(request.getClave()));
 
             Long fotoId = null;
             if (admin.getFoto() != null) {
@@ -61,7 +72,7 @@ public class AdministradorServicioImp implements AdministradorServicio {
 
         return mapper.map(admin);
     }
-
+    
     @Override
     public void eliminarAdmin(Long id) throws Exception {
         
@@ -110,10 +121,10 @@ public class AdministradorServicioImp implements AdministradorServicio {
         if (administrador.isPresent()) {
             return administrador.get();
         } else {
-            throw new ResourceNotFoundException("Este administrador no existe");
+            throw new ResourceNotFoundException("Ese administrador no existe");
         }
     }
-
+    
     @Override
     public AdministradorResponse findAdminById(Long id) throws ResourceNotFoundException {
         return mapper.map(findById(id));

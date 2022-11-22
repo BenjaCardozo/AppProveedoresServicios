@@ -1,7 +1,7 @@
 package com.appproveedoresservicios.mapper;
 
-import com.appproveedoresservicios.dto.ProveedorRequest;
-import com.appproveedoresservicios.dto.ProveedorResponse;
+import com.appproveedoresservicios.dto.request.ProveedorRequest;
+import com.appproveedoresservicios.dto.response.ProveedorResponse;
 import com.appproveedoresservicios.entidades.Foto;
 import com.appproveedoresservicios.entidades.Proveedor;
 import com.appproveedoresservicios.enums.Rol;
@@ -9,6 +9,7 @@ import com.appproveedoresservicios.servicios.FotoServicioImp;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -17,6 +18,9 @@ public class ProveedorMapper {
     @Autowired
     FotoServicioImp fotoServicioImp;
     
+    @Autowired
+    BCryptPasswordEncoder passwordEncoder;
+    
     public Proveedor map(ProveedorRequest proveedorRequest){
         
         Proveedor proveedor = new Proveedor();
@@ -24,7 +28,7 @@ public class ProveedorMapper {
         //atributos de persona
         proveedor.setNombre(proveedorRequest.getNombre());
         proveedor.setCorreo(proveedorRequest.getCorreo());
-        proveedor.setClave(proveedorRequest.getClave());
+        proveedor.setClave(passwordEncoder.encode(proveedorRequest.getClave()));
         proveedor.setBarrio(proveedorRequest.getBarrio());
         Foto foto = fotoServicioImp.guardarFoto(proveedorRequest.getFoto());
         proveedor.setFoto(foto);

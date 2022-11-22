@@ -8,9 +8,6 @@ import lombok.Data;
 
 @Entity
 @Data
-public class Administrador extends Persona {
+public class Administrador extends Usuario {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected Long id;
 }

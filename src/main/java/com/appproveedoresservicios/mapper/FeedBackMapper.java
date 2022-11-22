@@ -1,7 +1,7 @@
 package com.appproveedoresservicios.mapper;
 
-import com.appproveedoresservicios.dto.FeedBackRequest;
-import com.appproveedoresservicios.dto.FeedBackResponse;
+import com.appproveedoresservicios.dto.request.FeedBackRequest;
+import com.appproveedoresservicios.dto.response.FeedBackResponse;
 import com.appproveedoresservicios.entidades.FeedBack;
 import java.util.ArrayList;
 import java.util.List;

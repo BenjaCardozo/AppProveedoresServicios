@@ -1,8 +1,8 @@
 package com.appproveedoresservicios.controladores;
 
-import com.appproveedoresservicios.dto.FeedBackRequest;
-import com.appproveedoresservicios.dto.FeedBackResponse;
-import com.appproveedoresservicios.dto.ListFeedBackResponse;
+import com.appproveedoresservicios.dto.request.FeedBackRequest;
+import com.appproveedoresservicios.dto.response.FeedBackResponse;
+import com.appproveedoresservicios.dto.response.ListFeedBackResponse;
 import com.appproveedoresservicios.servicios.FeedBackServicioImp;
 import javax.transaction.Transactional;
 import javax.validation.Valid;

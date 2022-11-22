@@ -1,7 +1,8 @@
 package com.appproveedoresservicios.controladores;
 
-import com.appproveedoresservicios.dto.AdministradorRequest;
-import com.appproveedoresservicios.dto.AdministradorResponse;
+import com.appproveedoresservicios.dto.request.AdministradorRequest;
+import com.appproveedoresservicios.dto.response.AdministradorResponse;
+import com.appproveedoresservicios.excepciones.EmailAlreadyInUseException;
 import com.appproveedoresservicios.servicios.AdministradorServicioImp;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
@@ -29,7 +30,7 @@ public class AdministradorControlador {
     
     @PostMapping
     @Transactional
-    public ResponseEntity<AdministradorResponse> crear(@Valid @ModelAttribute AdministradorRequest administradorRequest, BindingResult result) throws MethodArgumentNotValidException {
+    public ResponseEntity<AdministradorResponse> crear(@Valid @ModelAttribute AdministradorRequest administradorRequest, BindingResult result) throws MethodArgumentNotValidException, EmailAlreadyInUseException {
 
         if (result.hasErrors()) {
             throw new MethodArgumentNotValidException(null, result);

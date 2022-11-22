@@ -58,6 +58,22 @@ public class GlobalExceptionHandler {
         error.setTimestamp(Timestamp.from(Instant.now()));
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
+    
+    //EL CORREO YA ESTÁ EN USO
+    @ExceptionHandler(value = EmailAlreadyInUseException.class)
+    public ResponseEntity<ErrorResponse> handleEmailAlreadyInUseException(EmailAlreadyInUseException e) {
+        ErrorResponse error = buildErrorResponse(e.getMessage(), HttpStatus.BAD_REQUEST);
+
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+    
+    //EL JWT NO SE PUDO VALIDAR
+    @ExceptionHandler(value = ServicioAppException.class)
+    public ResponseEntity<ErrorResponse> handleServicioAppException(ServicioAppException e) {
+        ErrorResponse error = buildErrorResponse(e.getMessage(), HttpStatus.BAD_REQUEST);
+
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
 
     //CONSTRUYE EL ERROR A DEVOLVER
     private ErrorResponse buildErrorResponse(String message, HttpStatus httpStatus) {

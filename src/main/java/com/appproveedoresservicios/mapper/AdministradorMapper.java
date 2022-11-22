@@ -1,12 +1,13 @@
 package com.appproveedoresservicios.mapper;
 
-import com.appproveedoresservicios.dto.AdministradorRequest;
-import com.appproveedoresservicios.dto.AdministradorResponse;
+import com.appproveedoresservicios.dto.request.AdministradorRequest;
+import com.appproveedoresservicios.dto.response.AdministradorResponse;
 import com.appproveedoresservicios.entidades.Administrador;
 import com.appproveedoresservicios.entidades.Foto;
 import com.appproveedoresservicios.enums.Rol;
 import com.appproveedoresservicios.servicios.FotoServicioImp;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -15,6 +16,9 @@ public class AdministradorMapper {
     @Autowired
     FotoServicioImp fotoServicioImp;
     
+    @Autowired
+    BCryptPasswordEncoder passwordEncoder;
+    
     public Administrador map(AdministradorRequest administradorRequest){
         
         Administrador administrador = new Administrador();
@@ -22,8 +26,7 @@ public class AdministradorMapper {
         //atributos de persona/administrador
         administrador.setNombre(administradorRequest.getNombre());
         administrador.setCorreo(administradorRequest.getCorreo());
-        administrador.setClave(administradorRequest.getClave());
-        administrador.setBarrio(administradorRequest.getBarrio());
+        administrador.setClave(passwordEncoder.encode(administradorRequest.getClave()));
         Foto foto = fotoServicioImp.guardarFoto(administradorRequest.getFoto());
         administrador.setFoto(foto);
         administrador.setAlta(true);
@@ -39,7 +42,6 @@ public class AdministradorMapper {
         response.setId(administrador.getId());
         response.setNombre(administrador.getNombre());
         response.setCorreo(administrador.getCorreo());
-        response.setBarrio(administrador.getBarrio());
         response.setAlta(administrador.getAlta());
         response.setRol(administrador.getRol());
         
