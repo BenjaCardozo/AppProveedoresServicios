@@ -33,11 +33,11 @@ public class FotoServicioImp implements FotoServicio{
 
     @Override
     public Foto actualizarFoto(MultipartFile archivo, Long idFoto) {
-        if(archivo!=null){
+        if(archivo != null){
             try {
                 Foto foto = new Foto();
 
-                if(idFoto!=null){
+                if(idFoto != null){
                     Optional<Foto> respuesta = fotoRepositorio.findById(idFoto);
                     if(respuesta.isPresent()){
                         foto = respuesta.get();
@@ -67,9 +67,8 @@ public class FotoServicioImp implements FotoServicio{
     }
 
     @Override
-    public Foto eliminarFoto(Long idFoto) {
+    public void eliminarFoto(Long idFoto) {
         findFotoById(idFoto);
         fotoRepositorio.deleteById(idFoto);
-        return null;
     }
 }

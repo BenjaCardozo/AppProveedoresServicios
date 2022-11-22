@@ -1,12 +1,15 @@
 package com.appproveedoresservicios.mapper;
 
-import com.appproveedoresservicios.dto.ClienteRequest;
-import com.appproveedoresservicios.dto.ClienteResponse;
+import com.appproveedoresservicios.dto.request.ClienteRequest;
+import com.appproveedoresservicios.dto.response.ClienteResponse;
 import com.appproveedoresservicios.entidades.Cliente;
 import com.appproveedoresservicios.entidades.Foto;
 import com.appproveedoresservicios.enums.Rol;
 import com.appproveedoresservicios.servicios.FotoServicioImp;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -14,6 +17,9 @@ public class ClienteMapper {
     
     @Autowired
     FotoServicioImp fotoServicioImp;
+    
+    @Autowired
+    BCryptPasswordEncoder passwordEncoder;
 
     public Cliente map(ClienteRequest clienteRequest) {
 
@@ -22,7 +28,7 @@ public class ClienteMapper {
         //atributos de persona
         cliente.setNombre(clienteRequest.getNombre());
         cliente.setCorreo(clienteRequest.getCorreo());
-        cliente.setClave(clienteRequest.getClave());
+        cliente.setClave(passwordEncoder.encode(clienteRequest.getClave()));
         cliente.setBarrio(clienteRequest.getBarrio());
         Foto foto = fotoServicioImp.guardarFoto(clienteRequest.getFoto());
         cliente.setFoto(foto);
@@ -50,4 +56,16 @@ public class ClienteMapper {
 
         return response;
     }
+    
+        public List<ClienteResponse> map (List<Cliente> clientes){
+        
+        List<ClienteResponse> listResponse = new  ArrayList<>();
+        
+        for (Cliente cliente : clientes) {
+            listResponse.add(map(cliente));
+        }
+        
+        return listResponse;
+    }
+    
 }

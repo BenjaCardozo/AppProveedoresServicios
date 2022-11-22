@@ -1,41 +1,38 @@
 package com.appproveedoresservicios.mapper;
 
-import com.appproveedoresservicios.dto.ProveedorRequest;
-import com.appproveedoresservicios.dto.ProveedorResponse;
+
+import com.appproveedoresservicios.dto.request.ProveedorRequest;
+import com.appproveedoresservicios.dto.response.ProveedorResponse;
+import com.appproveedoresservicios.entidades.Foto;
 import com.appproveedoresservicios.entidades.Proveedor;
 import com.appproveedoresservicios.enums.Rol;
-<<<<<<< HEAD
-=======
+
 import com.appproveedoresservicios.servicios.FotoServicioImp;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
->>>>>>> developer
 
 public class ProveedorMapper {
-    
-<<<<<<< HEAD
-=======
+
     @Autowired
     FotoServicioImp fotoServicioImp;
     
->>>>>>> developer
+    @Autowired
+    BCryptPasswordEncoder passwordEncoder;
+    
     public Proveedor map(ProveedorRequest proveedorRequest){
         
         Proveedor proveedor = new Proveedor();
         
         proveedor.setNombre(proveedorRequest.getNombre());
         proveedor.setCorreo(proveedorRequest.getCorreo());
-        proveedor.setClave(proveedorRequest.getClave());
+        proveedor.setClave(passwordEncoder.encode(proveedorRequest.getClave()));
         proveedor.setBarrio(proveedorRequest.getBarrio());
-<<<<<<< HEAD
-        //LE PUSE NULL PORQUE FALTA HACER EL SERVICIO DE FOTO TODAVÍA
-        proveedor.setFoto(null);
-=======
+
         Foto foto = fotoServicioImp.guardarFoto(proveedorRequest.getFoto());
         proveedor.setFoto(foto);
->>>>>>> developer
         proveedor.setAlta(true);
         proveedor.setRol(Rol.PROVEEDOR);
         

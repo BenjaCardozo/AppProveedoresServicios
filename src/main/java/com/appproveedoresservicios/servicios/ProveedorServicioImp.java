@@ -2,12 +2,13 @@
 package com.appproveedoresservicios.servicios;
 
 
-import com.appproveedoresservicios.dto.ListProveedorResponse;
-import com.appproveedoresservicios.dto.ProveedorRequest;
-import com.appproveedoresservicios.dto.ProveedorResponse;
+import com.appproveedoresservicios.dto.response.ListProveedorResponse;
+import com.appproveedoresservicios.dto.request.ProveedorRequest;
+import com.appproveedoresservicios.dto.response.ProveedorResponse;
 import com.appproveedoresservicios.entidades.Foto;
 import com.appproveedoresservicios.entidades.Proveedor;
 import com.appproveedoresservicios.excepciones.DataNotFoundException;
+import com.appproveedoresservicios.excepciones.EmailAlreadyInUseException;
 import com.appproveedoresservicios.excepciones.ResourceNotFoundException;
 import com.appproveedoresservicios.mapper.ProveedorMapper;
 import com.appproveedoresservicios.repositorios.ProveedorRepositorio;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -29,9 +31,19 @@ public class ProveedorServicioImp implements ProveedorServicio{
 
     @Autowired
     FotoServicioImp fotoServicioImp;
+    
+    @Autowired
+    UsuarioServicioImp usuarioServicioImp;
+    
+    @Autowired
+    BCryptPasswordEncoder passwordEncoder;
 
     @Override
-    public ProveedorResponse crearProveedor(ProveedorRequest request) {
+    public ProveedorResponse crearProveedor(ProveedorRequest request) throws EmailAlreadyInUseException{
+        
+        if(usuarioServicioImp.buscaPorCorreo(request.getCorreo())){
+           throw new EmailAlreadyInUseException("Ese correo ya está en uso, ingresa otro.");
+        }
 
         Proveedor proveedor = mapper.map(request);
 
@@ -52,32 +64,31 @@ public class ProveedorServicioImp implements ProveedorServicio{
 
             proveedor.setNombre(request.getNombre());
             proveedor.setCorreo(request.getCorreo());
-            proveedor.setClave(request.getClave());
+            proveedor.setClave(passwordEncoder.encode(request.getClave()));
             proveedor.setContacto(request.getContacto());
             proveedor.setDisponibilidad(request.getDisponibilidad());
             proveedor.setBarrio(request.getBarrio());
 
             Long fotoId = null;
-            if (request.getFoto() != null) {
-                fotoId = mapper.map(request).getFoto().getId();
+            if (proveedor.getFoto() != null) {
+                fotoId = proveedor.getFoto().getId();
             }
 
             Foto foto = fotoServicioImp.actualizarFoto(request.getFoto(), fotoId);
+            proveedor.setFoto(foto);
 
             proveedorRepositorio.save(proveedor);
-            if (fotoId != null) {
-                fotoServicioImp.eliminarFoto(fotoId);
-            }
         }
 
         return mapper.map(proveedor);
     }
 
     @Override
-    public Proveedor eliminarProveedor(Long id) throws Exception {
+    public void eliminarProveedor(Long id) throws Exception {
+        
         findById(id);
+        fotoServicioImp.eliminarFoto(findById(id).getFoto().getId());
         proveedorRepositorio.deleteById(id);
-        return null;
     }
 
     @Override
@@ -89,13 +100,12 @@ public class ProveedorServicioImp implements ProveedorServicio{
 
         Optional<Proveedor> respuesta = proveedorRepositorio.findById(id);
         if (respuesta.isPresent()) {
+            
             Proveedor proveedor = respuesta.get();
             proveedor.setAlta(Boolean.TRUE);
 
             proveedorRepositorio.save(proveedor);
-
         }
-
     }
 
     @Override
@@ -107,32 +117,35 @@ public class ProveedorServicioImp implements ProveedorServicio{
 
         Optional<Proveedor> respuesta = proveedorRepositorio.findById(id);
         if (respuesta.isPresent()) {
+            
             Proveedor proveedor = respuesta.get();
             proveedor.setAlta(Boolean.FALSE);
 
             proveedorRepositorio.save(proveedor);
-
         }
     }
 
     @Override
     public Proveedor findById(Long id) throws ResourceNotFoundException {
+        
         Optional<Proveedor> proveedor = proveedorRepositorio.findById(id);
+        
         if (proveedor.isPresent()) {
             return proveedor.get();
         } else {
-            throw new ResourceNotFoundException("Este proveedor no existe");
+            throw new ResourceNotFoundException("Ese proveedor no existe");
         }
     }
 
     @Override
     public ProveedorResponse findProveedorById(Long id) throws ResourceNotFoundException {
-        return mapper.map(findById(id));
+        return mapper.map((Proveedor)usuarioServicioImp.findById(id));
     }
     
      
     @Override
     public ListProveedorResponse buscarProveedorPorBarrio(String barrio) throws ResourceNotFoundException {
+        
         List<Proveedor> proveedores = proveedorRepositorio.findByBarrio(barrio);
         
         if (proveedores.size() < 1) {
@@ -153,6 +166,7 @@ public class ProveedorServicioImp implements ProveedorServicio{
         if (proveedores.size() < 1) {
             throw new DataNotFoundException("No hay proveedores en la base de datos, agrega algunos.");
         }
+        
         ListProveedorResponse proveedoresResponse = new ListProveedorResponse();
 
         proveedoresResponse.setProveedores(mapper.map(proveedores));
