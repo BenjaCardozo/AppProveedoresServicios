@@ -10,7 +10,7 @@ public interface TrabajoServicio {
 
     TrabajoResponse crearTrabajo(TrabajoRequest request);
 
-    TrabajoResponse trabajoConFechaFinal(TrabajoRequest request, Long id);
+    TrabajoResponse trabajoConFechaFinal(Long id);
     
     void eliminarTrabajo(Long id);
 
