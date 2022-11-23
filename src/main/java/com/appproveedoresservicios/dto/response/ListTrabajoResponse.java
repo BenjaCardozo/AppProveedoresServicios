@@ -8,4 +8,6 @@ public class ListTrabajoResponse {
     
     List<TrabajoResponse> trabajos;
     
+    
+    
 }

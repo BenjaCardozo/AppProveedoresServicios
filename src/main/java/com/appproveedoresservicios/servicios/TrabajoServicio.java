@@ -23,4 +23,6 @@ public interface TrabajoServicio {
     TrabajoResponse findTrabajoById(Long id) throws ResourceNotFoundException;
 
     ListTrabajoResponse listarTrabajos();
+    
+    ListTrabajoResponse listarTrabajoPorProveedor(Long idProveedor);
 }
