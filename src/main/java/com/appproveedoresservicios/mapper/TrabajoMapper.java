@@ -28,6 +28,7 @@ public class TrabajoMapper {
         trabajo.setProveedor(proveedor);
         trabajo.setCliente(cliente);
         trabajo.setFechaInicio(LocalDate.now());
+        trabajo.setAlta(Boolean.TRUE);
         
         return trabajo;
     }
@@ -41,6 +42,7 @@ public class TrabajoMapper {
         response.setIdCliente(trabajo.getCliente().getId());
         response.setFechaInicio(trabajo.getFechaInicio());
         response.setFechaFin(trabajo.getFechaFin());
+        response.setAlta(trabajo.getAlta());
         
         return response;
     }

@@ -37,8 +37,9 @@ public class TrabajoServicioImp implements TrabajoServicio {
         return mapper.map(trabajo);
     }
 
-    @Override
-    public TrabajoResponse trabajoConFechaFinal(TrabajoRequest request, Long id) {
+   
+    public TrabajoResponse trabajoConFechaFinal(Long id){
+        
         Optional<Trabajo> respuesta = trabajoRepositorio.findById(id);
 
         Trabajo trabajo = null;
@@ -49,6 +50,8 @@ public class TrabajoServicioImp implements TrabajoServicio {
 
             trabajo.setFechaFin(LocalDate.now());
 
+            trabajo.setAlta(Boolean.FALSE);
+            
             trabajoRepositorio.save(trabajo);
         }
 
