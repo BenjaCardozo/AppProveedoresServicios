@@ -37,6 +37,21 @@ public class FeedBackServicioImp implements FeedBackServicio {
         return mapper.map(feedback);
 
     }
+    
+    public FeedBack crearFeedBackVacio (Long idTrabajo){
+        
+        FeedBackRequest feedBackRequest = new FeedBackRequest();
+        
+        feedBackRequest.setCalificacion(0);
+        feedBackRequest.setComentario("");
+        feedBackRequest.setIdTrabajo(idTrabajo);
+        
+        FeedBack feedback = mapper.map(feedBackRequest);
+        
+        feedbackRepositorio.save(feedback);
+        
+        return feedback;
+    }
 
     @Override
     public ListFeedBackResponse listarFeedBacks() {
@@ -118,9 +133,5 @@ public class FeedBackServicioImp implements FeedBackServicio {
         FeedBack feedback = feedbackRepositorio.findByTrabajo(trabajo);
         
         return feedback;
-        
     }
-
-    
-    
 }

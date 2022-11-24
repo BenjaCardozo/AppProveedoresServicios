@@ -5,11 +5,13 @@ import com.appproveedoresservicios.dto.request.ProveedorRequest;
 import com.appproveedoresservicios.dto.response.ProveedorResponse;
 import com.appproveedoresservicios.entidades.Foto;
 import com.appproveedoresservicios.entidades.Proveedor;
+import com.appproveedoresservicios.entidades.Trabajo;
 import com.appproveedoresservicios.excepciones.DataNotFoundException;
 import com.appproveedoresservicios.excepciones.EmailAlreadyInUseException;
 import com.appproveedoresservicios.excepciones.ResourceNotFoundException;
 import com.appproveedoresservicios.mapper.ProveedorMapper;
 import com.appproveedoresservicios.repositorios.ProveedorRepositorio;
+import com.appproveedoresservicios.repositorios.TrabajoRepositorio;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,9 @@ public class ProveedorServicioImp implements ProveedorServicio {
     ProveedorRepositorio proveedorRepositorio;
 
     @Autowired
+    TrabajoRepositorio trabajoRepositorio;
+
+    @Autowired
     ProveedorMapper mapper;
 
     @Autowired
@@ -33,7 +38,7 @@ public class ProveedorServicioImp implements ProveedorServicio {
 
     @Autowired
     BCryptPasswordEncoder passwordEncoder;
-    
+
     @Override
     public ProveedorResponse crearProveedor(ProveedorRequest request) throws EmailAlreadyInUseException {
 
@@ -79,27 +84,22 @@ public class ProveedorServicioImp implements ProveedorServicio {
         return mapper.map(proveedor);
     }
 
-    /*@Override
-    public ProveedorResponse actualizarPromedioFeedBack(ProveedorRequest request, Long id) throws Exception {
+    @Override
+    public void actualizarPromedioFeedBack(Long id) throws Exception {
 
         if (id == null) {
             throw new Exception("El id no puede ser nulo");
         }
 
         Optional<Proveedor> respuesta = proveedorRepositorio.findById(id);
-
         if (respuesta.isPresent()) {
 
             Proveedor proveedor = respuesta.get();
+            proveedor.setPromedioFeedback(calcularFeedbackPromedio(id));
             
-            proveedor.setFeedback(request.ge);
-            proveedor.setPromedioFeedback(request.get);
-
             proveedorRepositorio.save(proveedor);
         }
-        return null;
-
-    }*/
+    }
 
     @Override
     public void eliminarProveedor(Long id) throws Exception {
@@ -190,20 +190,24 @@ public class ProveedorServicioImp implements ProveedorServicio {
 
         return proveedoresResponse;
     }
-    
+
     @Override
     public double calcularFeedbackPromedio(Long id) {
-        /*
-        List<FeedBack> feedBacks = feedBackServicioImp.
-        
-        double suma = 0;
-        
-        for(FeedBack feedBack : feedBacks){
-            suma=suma+feedBack.getCalificacion();
+
+        Proveedor proveedor = findById(id);
+
+        List<Trabajo> trabajos = trabajoRepositorio.findByProveedor(proveedor);
+
+        if (trabajos.size() < 1) {
+            throw new DataNotFoundException("Este proveedor no posee ningun trabajo, agrega algunos.");
         }
-        
-        return suma/feedBacks.size();
-        */
-        return 0d;
+
+        double suma = 0;
+
+        for (Trabajo trabajo : trabajos) {
+            suma = suma + trabajo.getFeedback().getCalificacion();
+        }
+
+        return suma / trabajos.size();
     }
 }

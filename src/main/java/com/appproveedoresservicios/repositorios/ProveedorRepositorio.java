@@ -9,6 +9,4 @@ import org.springframework.stereotype.Repository;
 public interface ProveedorRepositorio extends JpaRepository<Proveedor, Long>{
 
     List<Proveedor> findByBarrio (String barrio);
-            
-    
 }

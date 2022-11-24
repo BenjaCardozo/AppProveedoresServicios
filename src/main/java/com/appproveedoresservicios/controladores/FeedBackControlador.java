@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("feedback")
+@RequestMapping("/feedback")
 public class FeedBackControlador {
 
     @Autowired
@@ -57,5 +57,4 @@ public class FeedBackControlador {
         feedbackServicioImp.eliminarFeedBack(id);
         return ResponseEntity.noContent().build();
     }
-
 }

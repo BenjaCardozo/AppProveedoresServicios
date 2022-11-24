@@ -16,7 +16,7 @@ public interface ProveedorServicio {
     
     ProveedorResponse modificarProveedor(ProveedorRequest request, Long id) throws Exception;
     
-    //ProveedorResponse actualizarPromedioFeedBack(ProveedorRequest request, Long id) throws Exception;
+    void actualizarPromedioFeedBack(Long id) throws Exception;
     
     void eliminarProveedor(Long id) throws Exception;
     

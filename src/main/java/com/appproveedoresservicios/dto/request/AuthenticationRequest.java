@@ -11,6 +11,6 @@ public class AuthenticationRequest {
     @NotBlank(message = "El correo no puede estar vacío o ser nulo.")
     private String correo;
 
-    @NotBlank(message = "La contraseña con puede ser nula o estar vacía.")
+    @NotBlank(message = "La contraseña no puede ser nula o estar vacía.")
     private String clave;
 }
