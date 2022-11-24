@@ -11,6 +11,7 @@ public class TrabajoResponse {
     private Long idCliente;
     private LocalDate fechaInicio;
     private LocalDate fechaFin;
+    private Long idFeedBack;
     private Boolean alta;
     
 }
