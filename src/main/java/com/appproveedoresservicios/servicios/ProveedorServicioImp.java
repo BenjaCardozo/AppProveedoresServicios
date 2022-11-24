@@ -169,4 +169,20 @@ public class ProveedorServicioImp implements ProveedorServicio {
 
         return proveedoresResponse;
     }
+    
+    @Override
+    public double calcularFeedbackPromedio(Long id) {
+        /*
+        List<FeedBack> feedBacks = feedBackServicioImp.
+        
+        double suma = 0;
+        
+        for(FeedBack feedBack : feedBacks){
+            suma=suma+feedBack.getCalificacion();
+        }
+        
+        return suma/feedBacks.size();
+        */
+        return 0d;
+    }
 }

@@ -29,4 +29,6 @@ public interface ProveedorServicio {
     ListProveedorResponse buscarProveedorPorBarrio(String barrio) throws ResourceNotFoundException;
     
     ListProveedorResponse listarProveedores();
+    
+    double calcularFeedbackPromedio(Long id);
 }
