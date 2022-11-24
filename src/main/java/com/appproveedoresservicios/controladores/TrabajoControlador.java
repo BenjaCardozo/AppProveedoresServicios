@@ -42,6 +42,11 @@ public class TrabajoControlador {
     public ResponseEntity<ListTrabajoResponse> listar() {
         return ResponseEntity.ok().body(trabajoServicioImp.listarTrabajos());
     }
+        
+    @GetMapping("/proveedor/{id}")
+    public ResponseEntity<ListTrabajoResponse> listarTrabajoPorProveedor(@PathVariable Long id) {
+        return ResponseEntity.ok().body(trabajoServicioImp.listarTrabajoPorProveedor(id));
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<TrabajoResponse> buscarPorId(@PathVariable Long id) {
