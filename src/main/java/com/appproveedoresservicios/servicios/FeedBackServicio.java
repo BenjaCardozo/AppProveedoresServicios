@@ -10,6 +10,8 @@ public interface FeedBackServicio {
 
     FeedBackResponse crearFeedBack(FeedBackRequest request);
 
+    FeedBackResponse actualizarFeedBack(FeedBackRequest request, Long id) throws Exception ;
+    
     void eliminarFeedBack(Long id);
 
     FeedBack findById(Long id) throws ResourceNotFoundException;
@@ -18,4 +20,6 @@ public interface FeedBackServicio {
 
     ListFeedBackResponse listarFeedBacks();
 
+    FeedBack buscarFeedBackPorTrabajo(Long id);
+    
 }

@@ -29,6 +29,9 @@ public class Trabajo {
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDate fechaFin;
     
+    @OneToOne
+    private FeedBack feedback;
+    
     private Boolean alta; 
     
 }

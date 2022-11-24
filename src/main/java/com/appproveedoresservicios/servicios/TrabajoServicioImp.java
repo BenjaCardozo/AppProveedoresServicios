@@ -3,6 +3,7 @@ package com.appproveedoresservicios.servicios;
 import com.appproveedoresservicios.dto.response.ListTrabajoResponse;
 import com.appproveedoresservicios.dto.request.TrabajoRequest;
 import com.appproveedoresservicios.dto.response.TrabajoResponse;
+import com.appproveedoresservicios.entidades.FeedBack;
 import com.appproveedoresservicios.entidades.Proveedor;
 import com.appproveedoresservicios.entidades.Trabajo;
 import com.appproveedoresservicios.excepciones.DataNotFoundException;
@@ -27,6 +28,9 @@ public class TrabajoServicioImp implements TrabajoServicio {
     @Autowired
     ProveedorServicioImp proveedorServicioImp;
     
+    @Autowired
+    FeedBackServicioImp feedbackServicioImp;
+    
     @Override
     public TrabajoResponse crearTrabajo(TrabajoRequest request) {
 
@@ -44,12 +48,16 @@ public class TrabajoServicioImp implements TrabajoServicio {
 
         Trabajo trabajo = null;
 
+        FeedBack feedback = feedbackServicioImp.buscarFeedBackPorTrabajo(id);
+        
         if (respuesta.isPresent()) {
 
             trabajo = respuesta.get();
 
             trabajo.setFechaFin(LocalDate.now());
-
+                        
+            trabajo.setFeedback(feedback);
+            
             trabajo.setAlta(Boolean.FALSE);
             
             trabajoRepositorio.save(trabajo);
