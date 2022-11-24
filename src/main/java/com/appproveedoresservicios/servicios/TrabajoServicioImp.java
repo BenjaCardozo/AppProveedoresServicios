@@ -35,26 +35,26 @@ public class TrabajoServicioImp implements TrabajoServicio {
     public TrabajoResponse crearTrabajo(TrabajoRequest request) {
 
         Trabajo trabajo = mapper.map(request);
-
+        
         trabajoRepositorio.save(trabajo);
 
         return mapper.map(trabajo);
     }
 
-   
+    @Override
     public TrabajoResponse trabajoConFechaFinal(Long id){
         
         Optional<Trabajo> respuesta = trabajoRepositorio.findById(id);
 
         Trabajo trabajo = null;
 
-        FeedBack feedback = feedbackServicioImp.buscarFeedBackPorTrabajo(id);
-        
         if (respuesta.isPresent()) {
 
             trabajo = respuesta.get();
 
             trabajo.setFechaFin(LocalDate.now());
+            
+            FeedBack feedback = feedbackServicioImp.buscarFeedBackPorTrabajo(id);
                         
             trabajo.setFeedback(feedback);
             
@@ -82,7 +82,7 @@ public class TrabajoServicioImp implements TrabajoServicio {
         if (trabajo.isPresent()) {
             return trabajo.get();
         } else {
-            throw new ResourceNotFoundException("Este proveedor no existe");
+            throw new ResourceNotFoundException("Ese trabajo no existe");
         }
 
     }
@@ -163,5 +163,4 @@ public class TrabajoServicioImp implements TrabajoServicio {
         return trabajosResponse;
 
     }
-
 }

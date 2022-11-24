@@ -86,6 +86,15 @@ public class ProveedorControlador {
 
         return ResponseEntity.ok().body(proveedorServicioImp.findProveedorById(id));
     }
+    
+    @PatchMapping("promedio/{id}")
+    @Transactional
+    public ResponseEntity<ProveedorResponse> actualizarPromedioFeedback(@PathVariable Long id) throws Exception {
+
+        proveedorServicioImp.actualizarPromedioFeedBack(id);
+
+        return ResponseEntity.ok().body(proveedorServicioImp.findProveedorById(id));
+    }
 
     @GetMapping ("/buscar/{barrio}")
     public ResponseEntity<ListProveedorResponse> listarPorBarrio(@PathVariable String barrio) {

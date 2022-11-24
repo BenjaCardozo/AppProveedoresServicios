@@ -16,5 +16,6 @@ public class ProveedorResponse {
     private String contacto;
     private String descripcion;
     private String rubro;
+    private Double promedioFeedback;
     private String disponibilidad;
 }
