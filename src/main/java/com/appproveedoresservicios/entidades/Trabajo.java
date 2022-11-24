@@ -29,6 +29,6 @@ public class Trabajo {
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDate fechaFin;
     
-    private boolean alta; 
+    private Boolean alta; 
     
 }
