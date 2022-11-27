@@ -10,8 +10,8 @@ import javax.persistence.OneToOne;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
-@Data
 @Entity
+@Data
 public class Trabajo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,6 +28,9 @@ public class Trabajo {
     
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDate fechaFin;
+    
+    @OneToOne
+    private FeedBack feedback;
     
     private Boolean alta; 
     

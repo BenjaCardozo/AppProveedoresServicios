@@ -8,5 +8,6 @@ public class FeedBackResponse {
     private Long id;
     private Integer calificacion;
     private String comentario;
-
+    private Long idTrabajo;
+    
 }

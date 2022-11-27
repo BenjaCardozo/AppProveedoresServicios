@@ -9,7 +9,6 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -29,7 +28,7 @@ public class TrabajoControlador {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<TrabajoResponse> crear(@Valid @RequestBody TrabajoRequest trabajoRequest) throws MethodArgumentNotValidException {
+    public ResponseEntity<TrabajoResponse> crear(@Valid @RequestBody TrabajoRequest trabajoRequest) {
         return ResponseEntity.status(HttpStatus.CREATED).body(trabajoServicioImp.crearTrabajo(trabajoRequest));
     }
 
@@ -42,6 +41,11 @@ public class TrabajoControlador {
     @GetMapping
     public ResponseEntity<ListTrabajoResponse> listar() {
         return ResponseEntity.ok().body(trabajoServicioImp.listarTrabajos());
+    }
+        
+    @GetMapping("/proveedor/{id}")
+    public ResponseEntity<ListTrabajoResponse> listarTrabajoPorProveedor(@PathVariable Long id) {
+        return ResponseEntity.ok().body(trabajoServicioImp.listarTrabajoPorProveedor(id));
     }
 
     @GetMapping("/{id}")

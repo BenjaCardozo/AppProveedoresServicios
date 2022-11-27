@@ -45,6 +45,12 @@ public class TrabajoMapper {
         response.setFechaFin(trabajo.getFechaFin());
 
         response.setAlta(trabajo.getAlta());
+        
+        if(trabajo.getFeedback() != null){
+            response.setIdFeedBack(trabajo.getFeedback().getId());
+        } else{
+            response.setIdFeedBack(null);
+        }
         return response;
     }
 

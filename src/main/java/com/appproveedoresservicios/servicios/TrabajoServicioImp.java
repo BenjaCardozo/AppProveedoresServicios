@@ -3,6 +3,8 @@ package com.appproveedoresservicios.servicios;
 import com.appproveedoresservicios.dto.response.ListTrabajoResponse;
 import com.appproveedoresservicios.dto.request.TrabajoRequest;
 import com.appproveedoresservicios.dto.response.TrabajoResponse;
+import com.appproveedoresservicios.entidades.FeedBack;
+import com.appproveedoresservicios.entidades.Proveedor;
 import com.appproveedoresservicios.entidades.Trabajo;
 import com.appproveedoresservicios.excepciones.DataNotFoundException;
 import com.appproveedoresservicios.excepciones.ResourceNotFoundException;
@@ -23,32 +25,44 @@ public class TrabajoServicioImp implements TrabajoServicio {
     @Autowired
     TrabajoRepositorio trabajoRepositorio;
 
+    @Autowired
+    ProveedorServicioImp proveedorServicioImp;
+    
+    @Autowired
+    FeedBackServicioImp feedbackServicioImp;
+    
     @Override
     public TrabajoResponse crearTrabajo(TrabajoRequest request) {
 
         Trabajo trabajo = mapper.map(request);
-
+        
         trabajoRepositorio.save(trabajo);
 
         return mapper.map(trabajo);
     }
-    
+
     @Override
     public TrabajoResponse trabajoConFechaFinal(Long id){
+        
         Optional<Trabajo> respuesta = trabajoRepositorio.findById(id);
-        
+
         Trabajo trabajo = null;
-        
-        if(respuesta.isPresent()){
-            
+
+        if (respuesta.isPresent()) {
+
             trabajo = respuesta.get();
-            
+
             trabajo.setFechaFin(LocalDate.now());
+            
+            FeedBack feedback = feedbackServicioImp.buscarFeedBackPorTrabajo(id);
+                        
+            trabajo.setFeedback(feedback);
+            
             trabajo.setAlta(Boolean.FALSE);
             
             trabajoRepositorio.save(trabajo);
         }
-        
+
         return mapper.map(trabajo);
     }
 
@@ -68,7 +82,7 @@ public class TrabajoServicioImp implements TrabajoServicio {
         if (trabajo.isPresent()) {
             return trabajo.get();
         } else {
-            throw new ResourceNotFoundException("Este proveedor no existe");
+            throw new ResourceNotFoundException("Ese trabajo no existe");
         }
 
     }
@@ -131,4 +145,22 @@ public class TrabajoServicioImp implements TrabajoServicio {
         }
     }
 
+    @Override
+    public ListTrabajoResponse listarTrabajoPorProveedor(Long idProveedor) {
+
+        Proveedor proveedor = proveedorServicioImp.findById(idProveedor);
+        
+        List<Trabajo> trabajos = trabajoRepositorio.findByProveedor(proveedor);
+
+        if (trabajos.size() < 1) {
+            throw new DataNotFoundException("Este proveedor no posee ningun trabajo, agrega algunos.");
+        }
+
+        ListTrabajoResponse trabajosResponse = new ListTrabajoResponse();
+
+        trabajosResponse.setTrabajos(mapper.map(trabajos));
+
+        return trabajosResponse;
+
+    }
 }

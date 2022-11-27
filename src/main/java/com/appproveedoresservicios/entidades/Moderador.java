@@ -5,6 +5,6 @@ import lombok.Data;
 
 @Entity
 @Data
-public class Administrador extends Usuario {
-
+public class Moderador extends Usuario{
+    
 }

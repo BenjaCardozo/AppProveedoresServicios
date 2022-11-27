@@ -39,6 +39,7 @@ public class ProveedorMapper {
         proveedor.setContacto(proveedorRequest.getContacto());
         proveedor.setDescripcion(proveedorRequest.getDescripcion());
         proveedor.setRubro(proveedorRequest.getRubro());
+        proveedor.setPromedioFeedback(0d);
         proveedor.setDisponibilidad(proveedorRequest.getDisponibilidad());
         
         return proveedor;
@@ -58,6 +59,7 @@ public class ProveedorMapper {
         response.setContacto(proveedor.getContacto());
         response.setDescripcion(proveedor.getDescripcion());
         response.setRubro(proveedor.getRubro());
+        response.setPromedioFeedback(proveedor.getPromedioFeedback());
         response.setDisponibilidad(proveedor.getDisponibilidad());
         
         return response;
