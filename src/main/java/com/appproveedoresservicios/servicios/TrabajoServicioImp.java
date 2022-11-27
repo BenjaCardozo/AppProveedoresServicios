@@ -98,7 +98,7 @@ public class TrabajoServicioImp implements TrabajoServicio {
     public ListTrabajoResponse listarTrabajos() {
 
         List<Trabajo> trabajos = trabajoRepositorio.findAll();
-
+        
         if (trabajos.size() < 1) {
             throw new DataNotFoundException("No hay trabajos en la base de datos, agrega algunos.");
         }

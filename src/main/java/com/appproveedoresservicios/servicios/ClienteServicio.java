@@ -25,6 +25,13 @@ public interface ClienteServicio {
 
     ListClienteResponse buscarClientePorBarrio(String barrio) throws ResourceNotFoundException;
 
-    ListClienteResponse listarClientes();
+    ListClienteResponse listarClientes();  
     
+    ListClienteResponse ordenarClientesPorBarrio();
+    
+    ListClienteResponse ordenarClientesPorBarrioDesc();
+
+    ListClienteResponse ordenarClientesPorNombres();
+    
+    ListClienteResponse ordenarClientesPorNombresDesc();    
 }

@@ -92,4 +92,24 @@ public class ClienteControlador {
         return ResponseEntity.ok().body(clienteServicioImp.buscarClientePorBarrio(barrio));
     }
 
+    @GetMapping("/barrios")
+    public ResponseEntity<ListClienteResponse> ordenarClientesPorBarrios() {
+        return ResponseEntity.ok().body(clienteServicioImp.ordenarClientesPorBarrio());
+    }
+
+    @GetMapping("/barriosDesc")
+    public ResponseEntity<ListClienteResponse> ordenarClientesPorBarriosDesc() {
+        return ResponseEntity.ok().body(clienteServicioImp.ordenarClientesPorBarrioDesc());
+    }
+
+    @GetMapping("/nombres")
+    public ResponseEntity<ListClienteResponse> ordenarClientesPorNombres() {
+        return ResponseEntity.ok().body(clienteServicioImp.ordenarClientesPorNombres());
+    }
+
+    @GetMapping("/nombresDesc")
+    public ResponseEntity<ListClienteResponse> ordenarClientesPorNombresDesc() {
+        return ResponseEntity.ok().body(clienteServicioImp.ordenarClientesPorNombresDesc());
+    }
+
 }

@@ -27,20 +27,20 @@ public class ClienteServicioImp implements ClienteServicio {
 
     @Autowired
     FotoServicioImp fotoServicioImp;
-    
+
     @Autowired
     UsuarioServicioImp usuarioServicioImp;
-    
+
     @Autowired
     BCryptPasswordEncoder passwordEncoder;
 
     @Override
-    public ClienteResponse crearCliente(ClienteRequest request) throws EmailAlreadyInUseException{
+    public ClienteResponse crearCliente(ClienteRequest request) throws EmailAlreadyInUseException {
 
-        if(usuarioServicioImp.buscaPorCorreo(request.getCorreo())){
-           throw new EmailAlreadyInUseException("Ese correo ya está en uso, ingresa otro.");
+        if (usuarioServicioImp.buscaPorCorreo(request.getCorreo())) {
+            throw new EmailAlreadyInUseException("Ese correo ya está en uso, ingresa otro.");
         }
-        
+
         Cliente cliente = mapper.map(request);
 
         clienteRepositorio.save(cliente);
@@ -95,11 +95,11 @@ public class ClienteServicioImp implements ClienteServicio {
         return clientesResponse;
     }
 
-        @Override
+    @Override
     public ListClienteResponse buscarClientePorBarrio(String barrio) throws ResourceNotFoundException {
-        
+
         List<Cliente> clientes = clienteRepositorio.findByBarrio(barrio);
-        
+
         if (clientes.size() < 1) {
             throw new DataNotFoundException("No hay proveedores en la base de datos, agrega algunos.");
         }
@@ -109,7 +109,7 @@ public class ClienteServicioImp implements ClienteServicio {
 
         return clientesResponse;
     }
-    
+
     @Override
     public Cliente findById(Long id) throws ResourceNotFoundException {
         Optional<Cliente> cliente = clienteRepositorio.findById(id);
@@ -165,6 +165,74 @@ public class ClienteServicioImp implements ClienteServicio {
             clienteRepositorio.save(cliente);
 
         }
+
+    }
+
+    @Override
+    public ListClienteResponse ordenarClientesPorBarrio() {
+
+        List<Cliente> clientes = clienteRepositorio.findByOrderByBarrio();
+
+        if (clientes.size() < 1) {
+            throw new DataNotFoundException("No hay clientes en la base de datos, agrega algunos.");
+        }
+
+        ListClienteResponse clientesResponse = new ListClienteResponse();
+
+        clientesResponse.setClientes(mapper.map(clientes));
+
+        return clientesResponse;
+
+    }
+
+    @Override
+    public ListClienteResponse ordenarClientesPorBarrioDesc() {
+
+        List<Cliente> clientes = clienteRepositorio.findByOrderByBarrioDesc();
+
+        if (clientes.size() < 1) {
+            throw new DataNotFoundException("No hay clientes en la base de datos, agrega algunos.");
+        }
+
+        ListClienteResponse clientesResponse = new ListClienteResponse();
+
+        clientesResponse.setClientes(mapper.map(clientes));
+
+        return clientesResponse;
+
+    }
+
+    @Override
+    public ListClienteResponse ordenarClientesPorNombres() {
+
+        List<Cliente> clientes = clienteRepositorio.findByOrderByNombre();
+
+        if (clientes.size() < 1) {
+            throw new DataNotFoundException("No hay clientes en la base de datos, agrega algunos.");
+        }
+
+        ListClienteResponse clientesResponse = new ListClienteResponse();
+
+        clientesResponse.setClientes(mapper.map(clientes));
+
+        return clientesResponse;
+
+    }
+
+    @Override
+    public ListClienteResponse ordenarClientesPorNombresDesc() {
+
+        List<Cliente> clientes = clienteRepositorio.findByOrderByNombreDesc();
+
+        if (clientes.size() < 1) {
+            throw new DataNotFoundException("No hay clientes en la base de datos, agrega algunos.");
+        }
+
+        ListClienteResponse clientesResponse = new ListClienteResponse();
+
+        clientesResponse.setClientes(mapper.map(clientes));
+
+        return clientesResponse;
 
     }
 }

@@ -5,5 +5,5 @@ public enum Rol {
     ADMIN,
     CLIENTE,
     PROVEEDOR,
-    MODERADOR
+    MODERADOR,
 }
