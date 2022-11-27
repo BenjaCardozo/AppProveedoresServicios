@@ -28,7 +28,7 @@ public class ProveedorControlador {
 
     @Autowired
     ProveedorServicioImp proveedorServicioImp;
-    
+
     @PostMapping
     @Transactional
     public ResponseEntity<ProveedorResponse> crear(@Valid @ModelAttribute ProveedorRequest proveedorRequest, BindingResult result) throws MethodArgumentNotValidException, EmailAlreadyInUseException {
@@ -86,7 +86,7 @@ public class ProveedorControlador {
 
         return ResponseEntity.ok().body(proveedorServicioImp.findProveedorById(id));
     }
-    
+
     @PatchMapping("promedio/{id}")
     @Transactional
     public ResponseEntity<ProveedorResponse> actualizarPromedioFeedback(@PathVariable Long id) throws Exception {
@@ -96,7 +96,7 @@ public class ProveedorControlador {
         return ResponseEntity.ok().body(proveedorServicioImp.findProveedorById(id));
     }
 
-    @GetMapping ("/buscar/{barrio}")
+    @GetMapping("/buscar/{barrio}")
     public ResponseEntity<ListProveedorResponse> listarPorBarrio(@PathVariable String barrio) {
         return ResponseEntity.ok().body(proveedorServicioImp.buscarProveedorPorBarrio(barrio));
     }
