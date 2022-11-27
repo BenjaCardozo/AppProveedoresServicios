@@ -1,5 +1,6 @@
 package com.appproveedoresservicios.repositorios;
 
+import com.appproveedoresservicios.entidades.Cliente;
 import com.appproveedoresservicios.entidades.Proveedor;
 import com.appproveedoresservicios.entidades.Trabajo;
 import java.util.List;
@@ -11,4 +12,5 @@ public interface TrabajoRepositorio extends JpaRepository<Trabajo, Long> {
     
     List<Trabajo> findByProveedor (Proveedor proveedor);
     
+    List<Trabajo> findByCliente (Cliente cliente);
 }

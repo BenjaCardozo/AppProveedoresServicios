@@ -10,8 +10,10 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -24,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/proveedor")
+@CrossOrigin(origins = "*")
 public class ProveedorControlador {
 
     @Autowired
@@ -50,6 +53,7 @@ public class ProveedorControlador {
         return ResponseEntity.ok().body(proveedorServicioImp.findProveedorById(id));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     @Transactional
     public ResponseEntity<Void> eliminar(@PathVariable Long id) throws Exception {
@@ -57,6 +61,7 @@ public class ProveedorControlador {
         return ResponseEntity.noContent().build();
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'PROVEEDOR')")
     @PutMapping("/{id}")
     @Transactional
     public ResponseEntity<ProveedorResponse> actualizar(@PathVariable Long id,
@@ -69,6 +74,7 @@ public class ProveedorControlador {
         return ResponseEntity.ok().body(proveedorServicioImp.modificarProveedor(proveedorRequest, id));
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'MODERADOR')")
     @PatchMapping("baja/{id}")
     @Transactional
     public ResponseEntity<ProveedorResponse> darBaja(@PathVariable Long id) throws Exception {
@@ -78,6 +84,7 @@ public class ProveedorControlador {
         return ResponseEntity.ok().body(proveedorServicioImp.findProveedorById(id));
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'MODERADOR')")
     @PatchMapping("alta/{id}")
     @Transactional
     public ResponseEntity<ProveedorResponse> darAlta(@PathVariable Long id) throws Exception {

@@ -9,8 +9,10 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/moderador")
+@CrossOrigin(origins = "*")
 public class ModeradorControlador {
 
     @Autowired
@@ -51,6 +54,7 @@ public class ModeradorControlador {
         return ResponseEntity.noContent().build();
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'MODERADOR')")
     @PutMapping("/{id}")
     @Transactional
     public ResponseEntity<ModeradorResponse> actualizar(@PathVariable Long id,
@@ -63,6 +67,7 @@ public class ModeradorControlador {
         return ResponseEntity.ok().body(moderadorServicioImp.actualizarModerador(moderadorRequest, id));
     }
 
+    @PreAuthorize("Role('ADMIN')")
     @PatchMapping("baja/{id}")
     @Transactional
     public ResponseEntity<ModeradorResponse> darBaja(@PathVariable Long id) throws Exception {
@@ -72,6 +77,7 @@ public class ModeradorControlador {
         return ResponseEntity.ok().body(moderadorServicioImp.findModeradorById(id));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PatchMapping("alta/{id}")
     @Transactional
     public ResponseEntity<ModeradorResponse> darAlta(@PathVariable Long id) throws Exception {
