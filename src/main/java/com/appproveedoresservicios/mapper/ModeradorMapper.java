@@ -1,4 +1,3 @@
-
 package com.appproveedoresservicios.mapper;
 
 import com.appproveedoresservicios.dto.request.ModeradorRequest;
@@ -7,24 +6,25 @@ import com.appproveedoresservicios.entidades.Foto;
 import com.appproveedoresservicios.entidades.Moderador;
 import com.appproveedoresservicios.enums.Rol;
 import com.appproveedoresservicios.servicios.FotoServicioImp;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ModeradorMapper {
-    
-        
+
     @Autowired
     FotoServicioImp fotoServicioImp;
-    
+
     @Autowired
     BCryptPasswordEncoder passwordEncoder;
-    
-    public Moderador map(ModeradorRequest moderadorRequest){
-        
+
+    public Moderador map(ModeradorRequest moderadorRequest) {
+
         Moderador moderador = new Moderador();
-        
+
         //atributos de persona/administrador
         moderador.setNombre(moderadorRequest.getNombre());
         moderador.setCorreo(moderadorRequest.getCorreo());
@@ -33,22 +33,32 @@ public class ModeradorMapper {
         moderador.setFoto(foto);
         moderador.setAlta(true);
         moderador.setRol(Rol.MODERADOR);
-        
+
         return moderador;
     }
-    
-    public ModeradorResponse map(Moderador moderador){
-        
+
+    public ModeradorResponse map(Moderador moderador) {
+
         ModeradorResponse response = new ModeradorResponse();
-        
+
         response.setId(moderador.getId());
         response.setNombre(moderador.getNombre());
         response.setCorreo(moderador.getCorreo());
         response.setAlta(moderador.getAlta());
         response.setRol(moderador.getRol());
-        
+
         return response;
     }
-}
 
-   
+    public List<ModeradorResponse> map(List<Moderador> moderadores) {
+
+        List<ModeradorResponse> listResponse = new ArrayList<>();
+
+        for (Moderador moderador : moderadores) {
+            listResponse.add(map(moderador));
+        }
+
+        return listResponse;
+    }
+
+}

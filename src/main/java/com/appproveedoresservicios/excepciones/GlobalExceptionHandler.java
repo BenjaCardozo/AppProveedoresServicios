@@ -31,7 +31,7 @@ public class GlobalExceptionHandler {
     }
     
     /*500*/
-    @ExceptionHandler(value = RuntimeException.class)
+    /*@ExceptionHandler(value = RuntimeException.class)
     public ResponseEntity<ErrorResponse> handleRuntimeException(RuntimeException e) {
         ErrorResponse error = buildErrorResponse(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 
@@ -44,7 +44,7 @@ public class GlobalExceptionHandler {
         ErrorResponse error = buildErrorResponse("{Message: }" + e.getMessage() + "{StackTrace: }" + e.getStackTrace(), HttpStatus.INTERNAL_SERVER_ERROR);
 
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+    }*/
 
     //SALTA CUANDO LOS CAMPOS NO SON VALIDOS
     @ExceptionHandler(value = MethodArgumentNotValidException.class)

@@ -1,6 +1,7 @@
 package com.appproveedoresservicios.entidades;
 
 import java.time.LocalDate;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -29,7 +30,7 @@ public class Trabajo {
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDate fechaFin;
     
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.REMOVE}, orphanRemoval = true, mappedBy = "trabajo")
     private FeedBack feedback;
     
     private Boolean alta; 

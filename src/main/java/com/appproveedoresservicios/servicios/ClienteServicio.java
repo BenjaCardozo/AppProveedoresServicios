@@ -16,8 +16,10 @@ public interface ClienteServicio {
     Cliente findById(Long id) throws ResourceNotFoundException;
 
     ClienteResponse findClienteById(Long id) throws ResourceNotFoundException;
+    
+    void eliminarFeedBacksYTrabajosDeCliente(Long id);
 
-    Cliente eliminarCliente(Long id) throws Exception;
+    void eliminarCliente(Long id) throws Exception;
 
     void darBajaCliente(Long id) throws Exception;
 
@@ -25,6 +27,13 @@ public interface ClienteServicio {
 
     ListClienteResponse buscarClientePorBarrio(String barrio) throws ResourceNotFoundException;
 
-    ListClienteResponse listarClientes();
+    ListClienteResponse listarClientes();  
     
+    ListClienteResponse ordenarClientesPorBarrio();
+    
+    ListClienteResponse ordenarClientesPorBarrioDesc();
+
+    ListClienteResponse ordenarClientesPorNombres();
+    
+    ListClienteResponse ordenarClientesPorNombresDesc();    
 }
