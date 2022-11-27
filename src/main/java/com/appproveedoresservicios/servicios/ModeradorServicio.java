@@ -1,6 +1,7 @@
 package com.appproveedoresservicios.servicios;
 
 import com.appproveedoresservicios.dto.request.ModeradorRequest;
+import com.appproveedoresservicios.dto.response.ListModeradorResponse;
 import com.appproveedoresservicios.dto.response.ModeradorResponse;
 import com.appproveedoresservicios.entidades.Moderador;
 import com.appproveedoresservicios.excepciones.EmailAlreadyInUseException;
@@ -21,5 +22,9 @@ public interface ModeradorServicio {
     Moderador findById(Long id) throws ResourceNotFoundException;
 
     ModeradorResponse findModeradorById(Long id) throws ResourceNotFoundException;
+
+    /*ListModeradorResponse ordenarModeradoresPorNombres();
+
+    ListModeradorResponse ordenarModeradoresPorNombresDesc();*/
 
 }

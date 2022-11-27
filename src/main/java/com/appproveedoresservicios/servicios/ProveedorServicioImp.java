@@ -96,7 +96,7 @@ public class ProveedorServicioImp implements ProveedorServicio {
 
             Proveedor proveedor = respuesta.get();
             proveedor.setPromedioFeedback(calcularFeedbackPromedio(id));
-            
+
             proveedorRepositorio.save(proveedor);
         }
     }
@@ -161,12 +161,27 @@ public class ProveedorServicioImp implements ProveedorServicio {
     }
 
     @Override
-    public ListProveedorResponse buscarProveedorPorBarrio(String barrio) throws ResourceNotFoundException {
+    public ListProveedorResponse buscarProveedoresPorBarrio(String barrio) throws ResourceNotFoundException {
 
         List<Proveedor> proveedores = proveedorRepositorio.findByBarrio(barrio);
 
         if (proveedores.size() < 1) {
-            throw new DataNotFoundException("No hay proveedores en la base de datos, agrega algunos.");
+            throw new DataNotFoundException("No hay proveedores con ese barrio en la base de datos, agrega algunos.");
+        }
+        ListProveedorResponse proveedoresResponse = new ListProveedorResponse();
+
+        proveedoresResponse.setProveedores(mapper.map(proveedores));
+
+        return proveedoresResponse;
+    }
+
+    @Override
+    public ListProveedorResponse buscarProveedoresPorRubro(String rubro) throws ResourceNotFoundException {
+
+        List<Proveedor> proveedores = proveedorRepositorio.findByRubro(rubro);
+
+        if (proveedores.size() < 1) {
+            throw new DataNotFoundException("No hay proveedores con ese rubro en la base de datos, agrega algunos.");
         }
         ListProveedorResponse proveedoresResponse = new ListProveedorResponse();
 
@@ -209,5 +224,140 @@ public class ProveedorServicioImp implements ProveedorServicio {
         }
 
         return suma / trabajos.size();
+    }
+
+    @Override
+    public ListProveedorResponse ordenarProveedoresPorBarrios() {
+        List<Proveedor> proveedores = proveedorRepositorio.findByOrderByBarrio();
+
+        if (proveedores.size() < 1) {
+            throw new DataNotFoundException("No hay proveedores en la base de datos, agrega algunos.");
+        }
+
+        ListProveedorResponse proveedoresResponse = new ListProveedorResponse();
+
+        proveedoresResponse.setProveedores(mapper.map(proveedores));
+
+        return proveedoresResponse;
+
+    }
+
+    @Override
+    public ListProveedorResponse ordenarProveedoresPorBarriosDesc() {
+
+        List<Proveedor> proveedores = proveedorRepositorio.findByOrderByBarrioDesc();
+
+        if (proveedores.size() < 1) {
+            throw new DataNotFoundException("No hay proveedores en la base de datos, agrega algunos.");
+        }
+
+        ListProveedorResponse proveedoresResponse = new ListProveedorResponse();
+
+        proveedoresResponse.setProveedores(mapper.map(proveedores));
+
+        return proveedoresResponse;
+
+    }
+
+    @Override
+    public ListProveedorResponse ordenarProveedoresPorRubro() {
+
+        List<Proveedor> proveedores = proveedorRepositorio.findByOrderByRubro();
+
+        if (proveedores.size() < 1) {
+            throw new DataNotFoundException("No hay proveedores en la base de datos, agrega algunos.");
+        }
+
+        ListProveedorResponse proveedoresResponse = new ListProveedorResponse();
+
+        proveedoresResponse.setProveedores(mapper.map(proveedores));
+
+        return proveedoresResponse;
+
+    }
+
+    @Override
+    public ListProveedorResponse ordenarProveedoresPorRubroDesc() {
+
+        List<Proveedor> proveedores = proveedorRepositorio.findByOrderByRubroDesc();
+
+        if (proveedores.size() < 1) {
+            throw new DataNotFoundException("No hay proveedores en la base de datos, agrega algunos.");
+        }
+
+        ListProveedorResponse proveedoresResponse = new ListProveedorResponse();
+
+        proveedoresResponse.setProveedores(mapper.map(proveedores));
+
+        return proveedoresResponse;
+
+    }
+
+    @Override
+    public ListProveedorResponse ordenarProveedoresPorFeedback() {
+
+        List<Proveedor> proveedores = proveedorRepositorio.findByOrderByPromedioFeedback();
+
+        if (proveedores.size() < 1) {
+            throw new DataNotFoundException("No hay proveedores en la base de datos, agrega algunos.");
+        }
+
+        ListProveedorResponse proveedoresResponse = new ListProveedorResponse();
+
+        proveedoresResponse.setProveedores(mapper.map(proveedores));
+
+        return proveedoresResponse;
+
+    }
+
+    @Override
+    public ListProveedorResponse ordenarProveedoresPorFeedbackDesc() {
+
+        List<Proveedor> proveedores = proveedorRepositorio.findByOrderByPromedioFeedbackDesc();
+
+        if (proveedores.size() < 1) {
+            throw new DataNotFoundException("No hay proveedores en la base de datos, agrega algunos.");
+        }
+
+        ListProveedorResponse proveedoresResponse = new ListProveedorResponse();
+
+        proveedoresResponse.setProveedores(mapper.map(proveedores));
+
+        return proveedoresResponse;
+
+    }
+
+    @Override
+    public ListProveedorResponse ordenarProveedoresPorNombre() {
+
+        List<Proveedor> proveedores = proveedorRepositorio.findByOrderByNombre();
+
+        if (proveedores.size() < 1) {
+            throw new DataNotFoundException("No hay proveedores en la base de datos, agrega algunos.");
+        }
+
+        ListProveedorResponse proveedoresResponse = new ListProveedorResponse();
+
+        proveedoresResponse.setProveedores(mapper.map(proveedores));
+
+        return proveedoresResponse;
+
+    }
+
+    @Override
+    public ListProveedorResponse ordenarProveedoresPorNombreDesc() {
+
+        List<Proveedor> proveedores = proveedorRepositorio.findByOrderByNombreDesc();
+
+        if (proveedores.size() < 1) {
+            throw new DataNotFoundException("No hay proveedores en la base de datos, agrega algunos.");
+        }
+
+        ListProveedorResponse proveedoresResponse = new ListProveedorResponse();
+
+        proveedoresResponse.setProveedores(mapper.map(proveedores));
+
+        return proveedoresResponse;
+
     }
 }

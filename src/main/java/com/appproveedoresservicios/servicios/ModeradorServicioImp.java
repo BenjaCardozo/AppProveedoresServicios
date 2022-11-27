@@ -1,14 +1,17 @@
 package com.appproveedoresservicios.servicios;
 
 import com.appproveedoresservicios.dto.request.ModeradorRequest;
+import com.appproveedoresservicios.dto.response.ListModeradorResponse;
 import com.appproveedoresservicios.dto.response.ModeradorResponse;
 import com.appproveedoresservicios.entidades.Administrador;
 import com.appproveedoresservicios.entidades.Foto;
 import com.appproveedoresservicios.entidades.Moderador;
+import com.appproveedoresservicios.excepciones.DataNotFoundException;
 import com.appproveedoresservicios.excepciones.EmailAlreadyInUseException;
 import com.appproveedoresservicios.excepciones.ResourceNotFoundException;
 import com.appproveedoresservicios.mapper.ModeradorMapper;
 import com.appproveedoresservicios.repositorios.ModeradorRepositorio;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -135,5 +138,28 @@ public class ModeradorServicioImp implements ModeradorServicio {
     public ModeradorResponse findModeradorById(Long id) {
         return mapper.map(findById(id));
     }
+
+    /*@Override
+    public ListModeradorResponse ordenarModeradoresPorNombres() {
+
+        List<Moderador> moderadores = moderadorRepositorio.findByOrderByNombre();
+
+        if (moderadores.size() < 1) {
+            throw new DataNotFoundException("No hay moderadores en la base de datos, agrega algunos.");
+        }
+
+        ListModeradorResponse moderadoresResponse = new ListModeradorResponse();
+
+        moderadoresResponse.setModeradores(mapper.map(moderadores));
+
+        return moderadoresResponse;
+
+
+    }
+
+    @Override
+    public ListModeradorResponse ordenarModeradoresPorNombresDesc() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }*/
 
 }
