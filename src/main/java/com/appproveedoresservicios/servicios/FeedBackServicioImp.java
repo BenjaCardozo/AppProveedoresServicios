@@ -116,14 +116,7 @@ public class FeedBackServicioImp implements FeedBackServicio {
 
         findById(id);
         
-        try {
-            eliminarTrabajoDelFeedBack(id);
-        } catch (Exception ex) {
-            Logger.getLogger(FeedBackServicioImp.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
         feedbackRepositorio.deleteById(id);
-
     }
 
     @Override

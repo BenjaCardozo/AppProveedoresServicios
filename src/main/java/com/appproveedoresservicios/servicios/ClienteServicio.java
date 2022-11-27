@@ -16,8 +16,10 @@ public interface ClienteServicio {
     Cliente findById(Long id) throws ResourceNotFoundException;
 
     ClienteResponse findClienteById(Long id) throws ResourceNotFoundException;
+    
+    void eliminarFeedBacksYTrabajosDeCliente(Long id);
 
-    Cliente eliminarCliente(Long id) throws Exception;
+    void eliminarCliente(Long id) throws Exception;
 
     void darBajaCliente(Long id) throws Exception;
 

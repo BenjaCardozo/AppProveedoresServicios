@@ -25,7 +25,5 @@ public class BarrioServicioImp implements BarrioServicio {
         listBarrioResponse.setBarrios(barrios);
         
         return listBarrioResponse;
-        
     }
-    
 }

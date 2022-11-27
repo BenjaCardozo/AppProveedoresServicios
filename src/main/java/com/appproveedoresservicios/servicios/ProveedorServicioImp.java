@@ -3,7 +3,6 @@ package com.appproveedoresservicios.servicios;
 import com.appproveedoresservicios.dto.response.ListProveedorResponse;
 import com.appproveedoresservicios.dto.request.ProveedorRequest;
 import com.appproveedoresservicios.dto.response.ProveedorResponse;
-import com.appproveedoresservicios.entidades.FeedBack;
 import com.appproveedoresservicios.entidades.Foto;
 import com.appproveedoresservicios.entidades.Proveedor;
 import com.appproveedoresservicios.entidades.Trabajo;
@@ -120,21 +119,14 @@ public class ProveedorServicioImp implements ProveedorServicio {
         if (trabajos.size() > 0) {
 
             for (Trabajo trabajo : trabajos) {
+                
                 if (trabajo.getFeedback()!= null) {
-                    
-                    FeedBack feedback = trabajo.getFeedback();
-                    
-                    feedback.setTrabajo(null);
-                    
-                    feedbackRepositorio.save(feedback);
                     
                     feedbackRepositorio.deleteById(trabajo.getFeedback().getId());
                 }
                 trabajoRepositorio.deleteById(trabajo.getId());
             }
-
         }
-
     }
 
     @Override
@@ -276,7 +268,6 @@ public class ProveedorServicioImp implements ProveedorServicio {
         proveedoresResponse.setProveedores(mapper.map(proveedores));
 
         return proveedoresResponse;
-
     }
 
     @Override
@@ -293,7 +284,6 @@ public class ProveedorServicioImp implements ProveedorServicio {
         proveedoresResponse.setProveedores(mapper.map(proveedores));
 
         return proveedoresResponse;
-
     }
 
     @Override
@@ -310,7 +300,6 @@ public class ProveedorServicioImp implements ProveedorServicio {
         proveedoresResponse.setProveedores(mapper.map(proveedores));
 
         return proveedoresResponse;
-
     }
 
     @Override
@@ -327,7 +316,6 @@ public class ProveedorServicioImp implements ProveedorServicio {
         proveedoresResponse.setProveedores(mapper.map(proveedores));
 
         return proveedoresResponse;
-
     }
 
     @Override
@@ -344,7 +332,6 @@ public class ProveedorServicioImp implements ProveedorServicio {
         proveedoresResponse.setProveedores(mapper.map(proveedores));
 
         return proveedoresResponse;
-
     }
 
     @Override
@@ -361,7 +348,6 @@ public class ProveedorServicioImp implements ProveedorServicio {
         proveedoresResponse.setProveedores(mapper.map(proveedores));
 
         return proveedoresResponse;
-
     }
 
     @Override
@@ -378,7 +364,6 @@ public class ProveedorServicioImp implements ProveedorServicio {
         proveedoresResponse.setProveedores(mapper.map(proveedores));
 
         return proveedoresResponse;
-
     }
 
     @Override
@@ -395,6 +380,5 @@ public class ProveedorServicioImp implements ProveedorServicio {
         proveedoresResponse.setProveedores(mapper.map(proveedores));
 
         return proveedoresResponse;
-
     }
 }
