@@ -19,7 +19,7 @@ public interface FeedBackServicio {
     FeedBackResponse findFeedBackById(Long id) throws ResourceNotFoundException; 
 
     ListFeedBackResponse listarFeedBacks();
-
+    
     FeedBack buscarFeedBackPorTrabajo(Long id);
     
 }

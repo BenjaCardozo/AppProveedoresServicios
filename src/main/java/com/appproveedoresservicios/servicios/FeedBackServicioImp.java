@@ -4,6 +4,7 @@ import com.appproveedoresservicios.dto.request.FeedBackRequest;
 import com.appproveedoresservicios.dto.response.FeedBackResponse;
 import com.appproveedoresservicios.dto.response.ListFeedBackResponse;
 import com.appproveedoresservicios.entidades.FeedBack;
+import com.appproveedoresservicios.entidades.Proveedor;
 import com.appproveedoresservicios.entidades.Trabajo;
 import com.appproveedoresservicios.excepciones.DataNotFoundException;
 import com.appproveedoresservicios.excepciones.ResourceNotFoundException;
@@ -12,6 +13,8 @@ import com.appproveedoresservicios.repositorios.FeedBackRepositorio;
 import com.appproveedoresservicios.repositorios.TrabajoRepositorio;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +29,7 @@ public class FeedBackServicioImp implements FeedBackServicio {
     
     @Autowired
     TrabajoRepositorio trabajoRepositorio;
-
+    
     @Override
     public FeedBackResponse crearFeedBack(FeedBackRequest request) {
 
@@ -67,7 +70,7 @@ public class FeedBackServicioImp implements FeedBackServicio {
 
         return feedbacksResponse;
     }
-
+    
     @Override
     public FeedBack findById(Long id) throws ResourceNotFoundException {
 
@@ -86,10 +89,39 @@ public class FeedBackServicioImp implements FeedBackServicio {
         return mapper.map(findById(id));
     }
 
+    public void eliminarTrabajoDelFeedBack(Long id) throws Exception{
+        
+        
+        if (id == null) {
+            throw new Exception("El id no puede ser nulo");
+        }
+
+        Optional<FeedBack> respuesta = feedbackRepositorio.findById(id);
+        
+        FeedBack feedback = null;
+        
+        if (respuesta.isPresent()) {
+
+            feedback = respuesta.get();
+            
+            feedback.setTrabajo(null);
+            
+            feedbackRepositorio.save(feedback);
+        }
+        
+    }
+    
     @Override
     public void eliminarFeedBack(Long id) {
 
         findById(id);
+        
+        try {
+            eliminarTrabajoDelFeedBack(id);
+        } catch (Exception ex) {
+            Logger.getLogger(FeedBackServicioImp.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         feedbackRepositorio.deleteById(id);
 
     }
@@ -134,4 +166,7 @@ public class FeedBackServicioImp implements FeedBackServicio {
         
         return feedback;
     }
+    
+    
+    
 }
