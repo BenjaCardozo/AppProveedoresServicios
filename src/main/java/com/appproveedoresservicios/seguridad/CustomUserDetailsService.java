@@ -40,6 +40,6 @@ public class CustomUserDetailsService/* implements UserDetailsService*/ {
         
         String token = jwtTokenProvider.generarToken(auth.getName());
         
-        return new AuthenticationResponse(usuario.getCorreo(), token);
+        return new AuthenticationResponse(usuario.getId(), usuario.getRol().toString(), token);
     }
 }
