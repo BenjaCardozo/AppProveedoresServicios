@@ -2,6 +2,7 @@ package com.appproveedoresservicios.controladores;
 
 import com.appproveedoresservicios.dto.request.AdministradorRequest;
 import com.appproveedoresservicios.dto.response.AdministradorResponse;
+import com.appproveedoresservicios.dto.response.ListAdministradorResponse;
 import com.appproveedoresservicios.excepciones.EmailAlreadyInUseException;
 import com.appproveedoresservicios.servicios.AdministradorServicioImp;
 import javax.transaction.Transactional;
@@ -24,10 +25,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/admin")
 public class AdministradorControlador {
-    
+
     @Autowired
     AdministradorServicioImp administradorServicioImp;
-    
+
     @PostMapping
     @Transactional
     public ResponseEntity<AdministradorResponse> crear(@Valid @ModelAttribute AdministradorRequest administradorRequest, BindingResult result) throws MethodArgumentNotValidException, EmailAlreadyInUseException {
@@ -38,19 +39,19 @@ public class AdministradorControlador {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(administradorServicioImp.crearAdmin(administradorRequest));
     }
-    
+
     @GetMapping("/{id}")
-    public ResponseEntity<AdministradorResponse> buscarPorId(@PathVariable Long id){
+    public ResponseEntity<AdministradorResponse> buscarPorId(@PathVariable Long id) {
         return ResponseEntity.ok().body(administradorServicioImp.findAdminById(id));
     }
-    
+
     @DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity<Void> eliminar(@PathVariable Long id) throws Exception{
+    public ResponseEntity<Void> eliminar(@PathVariable Long id) throws Exception {
         administradorServicioImp.eliminarAdmin(id);
         return ResponseEntity.noContent().build();
     }
-    
+
     @PutMapping("/{id}")
     @Transactional
     public ResponseEntity<AdministradorResponse> actualizar(@PathVariable Long id,
@@ -80,4 +81,15 @@ public class AdministradorControlador {
 
         return ResponseEntity.ok().body(administradorServicioImp.findAdminById(id));
     }
+
+    @GetMapping("/nombres")
+    public ResponseEntity<ListAdministradorResponse> ordenarAdministradoresPorNombre() {
+        return ResponseEntity.ok().body(administradorServicioImp.ordenarAdminsPorNombre());
+    }
+
+    @GetMapping("/nombresDesc")
+    public ResponseEntity<ListAdministradorResponse> ordenarAdministradoresPorNombreDesc() {
+        return ResponseEntity.ok().body(administradorServicioImp.ordenarAdminsPorNombreDesc());
+    }
+
 }

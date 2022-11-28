@@ -1,13 +1,12 @@
 package com.appproveedoresservicios.dto.response;
 
+import com.appproveedoresservicios.enums.Barrio;
 import java.util.List;
 import lombok.Data;
 
 @Data
-public class ListTrabajoResponse {
+public class ListBarrioResponse {
     
-    List<TrabajoResponse> trabajos;
-    
-    
+    List<Barrio> barrios;
     
 }

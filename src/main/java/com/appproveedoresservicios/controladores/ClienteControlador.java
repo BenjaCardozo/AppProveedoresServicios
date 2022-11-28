@@ -10,8 +10,10 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -24,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/cliente")
+@CrossOrigin(origins = "*")
 public class ClienteControlador {
 
     @Autowired
@@ -50,6 +53,7 @@ public class ClienteControlador {
         return ResponseEntity.ok().body(clienteServicioImp.findClienteById(id));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     @Transactional
     public ResponseEntity<Void> eliminar(@PathVariable Long id) throws Exception {
@@ -57,6 +61,7 @@ public class ClienteControlador {
         return ResponseEntity.noContent().build();
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'CLIENTE')")
     @PutMapping("/{id}")
     @Transactional
     public ResponseEntity<ClienteResponse> actualizar(@PathVariable Long id,
@@ -69,6 +74,7 @@ public class ClienteControlador {
         return ResponseEntity.ok().body(clienteServicioImp.modificarCliente(clienteRequest, id));
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'MODERADOR')")
     @PatchMapping("baja/{id}")
     @Transactional
     public ResponseEntity<ClienteResponse> darBaja(@PathVariable Long id) throws Exception {
@@ -78,6 +84,7 @@ public class ClienteControlador {
         return ResponseEntity.ok().body(clienteServicioImp.findClienteById(id));
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'MODERADOR')")
     @PatchMapping("alta/{id}")
     @Transactional
     public ResponseEntity<ClienteResponse> darAlta(@PathVariable Long id) throws Exception {
@@ -90,6 +97,26 @@ public class ClienteControlador {
     @GetMapping("/buscar/{barrio}")
     public ResponseEntity<ListClienteResponse> listarPorBarrio(@PathVariable String barrio) {
         return ResponseEntity.ok().body(clienteServicioImp.buscarClientePorBarrio(barrio));
+    }
+
+    @GetMapping("/barrios")
+    public ResponseEntity<ListClienteResponse> ordenarClientesPorBarrios() {
+        return ResponseEntity.ok().body(clienteServicioImp.ordenarClientesPorBarrio());
+    }
+
+    @GetMapping("/barriosDesc")
+    public ResponseEntity<ListClienteResponse> ordenarClientesPorBarriosDesc() {
+        return ResponseEntity.ok().body(clienteServicioImp.ordenarClientesPorBarrioDesc());
+    }
+
+    @GetMapping("/nombres")
+    public ResponseEntity<ListClienteResponse> ordenarClientesPorNombres() {
+        return ResponseEntity.ok().body(clienteServicioImp.ordenarClientesPorNombres());
+    }
+
+    @GetMapping("/nombresDesc")
+    public ResponseEntity<ListClienteResponse> ordenarClientesPorNombresDesc() {
+        return ResponseEntity.ok().body(clienteServicioImp.ordenarClientesPorNombresDesc());
     }
 
 }

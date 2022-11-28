@@ -10,7 +10,7 @@ public interface TrabajoServicio {
 
     TrabajoResponse crearTrabajo(TrabajoRequest request);
 
-    TrabajoResponse trabajoConFechaFinal(TrabajoRequest request, Long id);
+    TrabajoResponse trabajoConFechaFinal(Long id);
     
     void eliminarTrabajo(Long id);
 
@@ -23,4 +23,6 @@ public interface TrabajoServicio {
     TrabajoResponse findTrabajoById(Long id) throws ResourceNotFoundException;
 
     ListTrabajoResponse listarTrabajos();
+    
+    ListTrabajoResponse listarTrabajoPorProveedor(Long idProveedor);
 }

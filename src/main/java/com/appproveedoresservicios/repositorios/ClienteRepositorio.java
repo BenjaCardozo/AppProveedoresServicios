@@ -10,4 +10,12 @@ public interface ClienteRepositorio extends JpaRepository<Cliente, Long> {
 
     List<Cliente> findByBarrio(String barrio);
 
+    List<Cliente> findByOrderByBarrio();
+    
+    List<Cliente> findByOrderByBarrioDesc();
+        
+    List<Cliente> findByOrderByNombre();
+    
+    List<Cliente> findByOrderByNombreDesc();
+    
 }

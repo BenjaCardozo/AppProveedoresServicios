@@ -4,10 +4,8 @@ import java.util.List;
 import lombok.Data;
 
 @Data
-public class ListTrabajoResponse {
+public class ListAdministradorResponse {
     
-    List<TrabajoResponse> trabajos;
-    
-    
+    List<AdministradorResponse> administradores;
     
 }

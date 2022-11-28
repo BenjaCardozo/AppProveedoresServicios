@@ -2,12 +2,15 @@ package com.appproveedoresservicios.servicios;
 
 import com.appproveedoresservicios.dto.request.AdministradorRequest;
 import com.appproveedoresservicios.dto.response.AdministradorResponse;
+import com.appproveedoresservicios.dto.response.ListAdministradorResponse;
 import com.appproveedoresservicios.entidades.Administrador;
 import com.appproveedoresservicios.entidades.Foto;
+import com.appproveedoresservicios.excepciones.DataNotFoundException;
 import com.appproveedoresservicios.excepciones.ResourceNotFoundException;
 import com.appproveedoresservicios.excepciones.EmailAlreadyInUseException;
 import com.appproveedoresservicios.mapper.AdministradorMapper;
 import com.appproveedoresservicios.repositorios.AdministradorRepositorio;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -24,20 +27,20 @@ public class AdministradorServicioImp implements AdministradorServicio {
 
     @Autowired
     FotoServicioImp fotoServicioImp;
-    
+
     @Autowired
     UsuarioServicioImp usuarioServicioImp;
-    
+
     @Autowired
     BCryptPasswordEncoder passwordEncoder;
 
     @Override
-    public AdministradorResponse crearAdmin(AdministradorRequest request) throws EmailAlreadyInUseException{
-        
-        if(usuarioServicioImp.buscaPorCorreo(request.getCorreo())){
-           throw new EmailAlreadyInUseException("Ese correo ya está en uso, ingresa otro.");
+    public AdministradorResponse crearAdmin(AdministradorRequest request) throws EmailAlreadyInUseException {
+
+        if (usuarioServicioImp.buscaPorCorreo(request.getCorreo())) {
+            throw new EmailAlreadyInUseException("Ese correo ya está en uso, ingresa otro.");
         }
-        
+
         Administrador admin = mapper.map(request);
 
         administradorRepositorio.save(admin);
@@ -72,10 +75,10 @@ public class AdministradorServicioImp implements AdministradorServicio {
 
         return mapper.map(admin);
     }
-    
+
     @Override
     public void eliminarAdmin(Long id) throws Exception {
-        
+
         findById(id);
         fotoServicioImp.eliminarFoto(findById(id).getFoto().getId());
         administradorRepositorio.deleteById(id);
@@ -83,7 +86,7 @@ public class AdministradorServicioImp implements AdministradorServicio {
 
     @Override
     public void darBajaAdmin(Long id) throws Exception {
-        
+
         if (id == null) {
             throw new Exception("El id no puede ser nulo");
         }
@@ -99,7 +102,7 @@ public class AdministradorServicioImp implements AdministradorServicio {
 
     @Override
     public void darAltaAdmin(Long id) throws Exception {
-        
+
         if (id == null) {
             throw new Exception("El id no puede ser nulo");
         }
@@ -115,18 +118,52 @@ public class AdministradorServicioImp implements AdministradorServicio {
 
     @Override
     public Administrador findById(Long id) throws ResourceNotFoundException {
-        
+
         Optional<Administrador> administrador = administradorRepositorio.findById(id);
-        
+
         if (administrador.isPresent()) {
             return administrador.get();
         } else {
             throw new ResourceNotFoundException("Ese administrador no existe");
         }
     }
-    
+
     @Override
     public AdministradorResponse findAdminById(Long id) throws ResourceNotFoundException {
         return mapper.map(findById(id));
+    }
+
+    @Override
+    public ListAdministradorResponse ordenarAdminsPorNombre() {
+
+        List<Administrador> administradores = administradorRepositorio.findByOrderByNombre();
+
+        if (administradores.size() < 1) {
+            throw new DataNotFoundException("No hay proveedores en la base de datos, agrega algunos.");
+        }
+
+        ListAdministradorResponse administradoresResponse = new ListAdministradorResponse();
+
+        administradoresResponse.setAdministradores(mapper.map(administradores));
+
+        return administradoresResponse;
+
+    }
+
+    @Override
+    public ListAdministradorResponse ordenarAdminsPorNombreDesc() {
+
+        List<Administrador> administradores = administradorRepositorio.findByOrderByNombreDesc();
+
+        if (administradores.size() < 1) {
+            throw new DataNotFoundException("No hay proveedores en la base de datos, agrega algunos.");
+        }
+
+        ListAdministradorResponse administradoresResponse = new ListAdministradorResponse();
+
+        administradoresResponse.setAdministradores(mapper.map(administradores));
+
+        return administradoresResponse;    
+        
     }
 }

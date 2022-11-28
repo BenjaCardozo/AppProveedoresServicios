@@ -1,6 +1,7 @@
 package com.appproveedoresservicios.entidades;
 
 import java.time.LocalDate;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -10,8 +11,8 @@ import javax.persistence.OneToOne;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
-@Data
 @Entity
+@Data
 public class Trabajo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,6 +30,9 @@ public class Trabajo {
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDate fechaFin;
     
-    private boolean alta; 
+    @OneToOne(cascade = {CascadeType.REMOVE}, orphanRemoval = true, mappedBy = "trabajo")
+    private FeedBack feedback;
+    
+    private Boolean alta; 
     
 }

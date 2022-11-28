@@ -4,6 +4,8 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -29,7 +31,7 @@ public class GlobalExceptionHandler {
     }
     
     /*500*/
-    @ExceptionHandler(value = RuntimeException.class)
+    /*@ExceptionHandler(value = RuntimeException.class)
     public ResponseEntity<ErrorResponse> handleRuntimeException(RuntimeException e) {
         ErrorResponse error = buildErrorResponse(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 
@@ -42,7 +44,7 @@ public class GlobalExceptionHandler {
         ErrorResponse error = buildErrorResponse("{Message: }" + e.getMessage() + "{StackTrace: }" + e.getStackTrace(), HttpStatus.INTERNAL_SERVER_ERROR);
 
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+    }*/
 
     //SALTA CUANDO LOS CAMPOS NO SON VALIDOS
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
@@ -63,6 +65,22 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = EmailAlreadyInUseException.class)
     public ResponseEntity<ErrorResponse> handleEmailAlreadyInUseException(EmailAlreadyInUseException e) {
         ErrorResponse error = buildErrorResponse(e.getMessage(), HttpStatus.BAD_REQUEST);
+
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+    
+    //LOGIN - EL CORREO NO ESTA EN LA BASE DE DATOS
+    @ExceptionHandler(value = UsernameNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleUserNotFoundException(UsernameNotFoundException e) {
+        ErrorResponse error = buildErrorResponse(e.getMessage(), HttpStatus.BAD_REQUEST);
+
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+    
+    //LOGIN - CONTRASEÑA INCORRECTA
+    @ExceptionHandler(value = BadCredentialsException.class)
+    public ResponseEntity<ErrorResponse> handleBadCredentialsExceptionn(BadCredentialsException e) {
+        ErrorResponse error = buildErrorResponse("Contraseña incorrecta", HttpStatus.BAD_REQUEST);
 
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }

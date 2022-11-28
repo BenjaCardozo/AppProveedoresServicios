@@ -1,9 +1,9 @@
 package com.appproveedoresservicios.seguridad;
 
+import com.appproveedoresservicios.servicios.UsuarioServicioImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -12,7 +12,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
@@ -21,22 +20,20 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SeguridadWeb extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    public CustomUserDetailsService customUserDetailsService;
+    public UsuarioServicioImp usuarioServicioImp;
 
-    //@Autowired
-    //JwtAuthenticationFilter jwtAuthenticationFilter;
+    @Autowired
+    private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    
+    
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter() {
         return new JwtAuthenticationFilter();
     }
 
-//    @Autowired
-//    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.userDetailsService(customUserDetailsService).passwordEncoder(passwordEncoder());
-//    }
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(customUserDetailsService).passwordEncoder(passwordEncoder());
+        auth.userDetailsService(usuarioServicioImp).passwordEncoder(passwordEncoder());
     }
 
     @Bean
@@ -62,13 +59,13 @@ public class SeguridadWeb extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/admin/*").hasRole("ADMIN")//PARA ACTIVAR LA SEGURIDAD DE ADMIN
-                .antMatchers("/**").permitAll() //Setear esta configuración solo admins y además setear login
+                //.antMatchers(HttpMethod.GET, "/admin/*").hasRole("ADMIN")//PARA ACTIVAR LA SEGURIDAD DE ADMIN
+                .antMatchers("/**").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
                 .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling()
-                .authenticationEntryPoint(new Http403ForbiddenEntryPoint());
+                .authenticationEntryPoint(jwtAuthenticationEntryPoint);
     }
 }
