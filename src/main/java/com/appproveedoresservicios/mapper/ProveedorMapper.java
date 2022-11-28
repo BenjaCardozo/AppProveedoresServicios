@@ -46,7 +46,6 @@ public class ProveedorMapper {
     public ProveedorResponse map(Proveedor proveedor){
         
         ProveedorResponse response = new ProveedorResponse();
-        
         response.setNombre(proveedor.getNombre());
         response.setCorreo(proveedor.getCorreo());
         response.setBarrio(proveedor.getBarrio());
