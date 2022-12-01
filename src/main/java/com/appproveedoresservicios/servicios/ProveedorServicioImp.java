@@ -4,6 +4,7 @@ import com.appproveedoresservicios.dto.response.ListProveedorResponse;
 import com.appproveedoresservicios.dto.request.ProveedorRequest;
 import com.appproveedoresservicios.dto.response.ProveedorResponse;
 import com.appproveedoresservicios.entidades.Foto;
+import com.appproveedoresservicios.entidades.FotoProveedor;
 import com.appproveedoresservicios.entidades.Proveedor;
 import com.appproveedoresservicios.entidades.Trabajo;
 import com.appproveedoresservicios.excepciones.DataNotFoundException;
@@ -11,6 +12,7 @@ import com.appproveedoresservicios.excepciones.EmailAlreadyInUseException;
 import com.appproveedoresservicios.excepciones.ResourceNotFoundException;
 import com.appproveedoresservicios.mapper.ProveedorMapper;
 import com.appproveedoresservicios.repositorios.FeedBackRepositorio;
+import com.appproveedoresservicios.repositorios.FotoProveedorRepositorio;
 import com.appproveedoresservicios.repositorios.ProveedorRepositorio;
 import com.appproveedoresservicios.repositorios.TrabajoRepositorio;
 import java.util.List;
@@ -45,9 +47,11 @@ public class ProveedorServicioImp implements ProveedorServicio {
 
     @Autowired
     FeedBackRepositorio feedbackRepositorio;
+    
+    @Autowired
+    FotoProveedorRepositorio fotoProveedorRepositorio;
 
     @Override
-
     public ProveedorResponse crearProveedor(ProveedorRequest request) throws EmailAlreadyInUseException {
 
         if (usuarioServicioImp.buscaPorCorreo(request.getCorreo())) {
@@ -128,6 +132,18 @@ public class ProveedorServicioImp implements ProveedorServicio {
             }
         }
     }
+    
+    private void eliminarFotosDelProveedor(Long id){
+        Proveedor proveedor = findById(id);
+        
+        List<FotoProveedor> fotos = fotoProveedorRepositorio.findByProveedor(proveedor);
+        
+        if(fotos.size() > 0){
+            for (FotoProveedor foto : fotos) {
+                fotoProveedorRepositorio.deleteById(foto.getId());
+            }
+        }
+    }
 
     @Override
     public void eliminarProveedor(Long id) throws Exception {
@@ -135,6 +151,7 @@ public class ProveedorServicioImp implements ProveedorServicio {
         findById(id);
         fotoServicioImp.eliminarFoto(findById(id).getFoto().getId());
         eliminarFeedBacksYTrabajosDeProveedor(id);
+        eliminarFotosDelProveedor(id);
         proveedorRepositorio.deleteById(id);
     }
 
