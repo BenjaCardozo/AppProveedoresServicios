@@ -18,5 +18,5 @@ public interface SolicitudTrabajoServicio {
     
     ListSolicitudTrabajoResponse listarSolicitudes();
     
-    ListSolicitudTrabajoResponse buscarSolicitudesPorProveedor(Long Proveedor) throws ResourceNotFoundException;
+    ListSolicitudTrabajoResponse buscarSolicitudesPorProveedor(Long idProveedor) throws ResourceNotFoundException;
 }

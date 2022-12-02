@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface SolicitudTrabajoRepositorio extends JpaRepository<SolicitudTrabajo, Long> {
 
-    List<SolicitudTrabajo> findByProveedor(Proveedor proveedor);
+    List<SolicitudTrabajo> findByProveedor(Proveedor Proveedor);
 
 }
