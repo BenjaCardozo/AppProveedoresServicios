@@ -148,7 +148,7 @@ public class TrabajoServicioImp implements TrabajoServicio {
     @Override
     public ListTrabajoResponse listarTrabajoPorProveedor(Long idProveedor) {
 
-        Proveedor proveedor = proveedorServicioImp.findById(idProveedor);
+    Proveedor proveedor = proveedorServicioImp.findById(idProveedor);
         
         List<Trabajo> trabajos = trabajoRepositorio.findByProveedor(proveedor);
 
