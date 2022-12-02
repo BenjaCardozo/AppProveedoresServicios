@@ -78,7 +78,9 @@ public class FotoProveedorServicioImp implements FotoProveedorServicio{
     public void eliminarFotoProveedor(Long id) {
         
         findById(id);
-        fotoServicioImp.eliminarFoto(findById(id).getFoto().getId());
+        if(findById(id).getFoto() !=null){
+            fotoServicioImp.eliminarFoto(findById(id).getFoto().getId());
+        }
         fotoProveedorRepositorio.deleteById(id);
     }
 

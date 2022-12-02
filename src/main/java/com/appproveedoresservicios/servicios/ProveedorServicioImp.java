@@ -13,6 +13,7 @@ import com.appproveedoresservicios.excepciones.ResourceNotFoundException;
 import com.appproveedoresservicios.mapper.ProveedorMapper;
 import com.appproveedoresservicios.repositorios.FeedBackRepositorio;
 import com.appproveedoresservicios.repositorios.FotoProveedorRepositorio;
+import com.appproveedoresservicios.repositorios.FotoRepositorio;
 import com.appproveedoresservicios.repositorios.ProveedorRepositorio;
 import com.appproveedoresservicios.repositorios.TrabajoRepositorio;
 import java.util.List;
@@ -50,6 +51,9 @@ public class ProveedorServicioImp implements ProveedorServicio {
     
     @Autowired
     FotoProveedorRepositorio fotoProveedorRepositorio;
+    
+    @Autowired
+    FotoRepositorio fotoRepositorio;
 
     @Override
     public ProveedorResponse crearProveedor(ProveedorRequest request) throws EmailAlreadyInUseException {
@@ -140,6 +144,7 @@ public class ProveedorServicioImp implements ProveedorServicio {
         
         if(fotos.size() > 0){
             for (FotoProveedor foto : fotos) {
+                fotoRepositorio.deleteById(foto.getFoto().getId());
                 fotoProveedorRepositorio.deleteById(foto.getId());
             }
         }
@@ -149,7 +154,9 @@ public class ProveedorServicioImp implements ProveedorServicio {
     public void eliminarProveedor(Long id) throws Exception {
 
         findById(id);
-        fotoServicioImp.eliminarFoto(findById(id).getFoto().getId());
+        if(findById(id).getFoto() !=null){
+            fotoServicioImp.eliminarFoto(findById(id).getFoto().getId());
+        }
         eliminarFeedBacksYTrabajosDeProveedor(id);
         eliminarFotosDelProveedor(id);
         proveedorRepositorio.deleteById(id);
