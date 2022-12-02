@@ -82,7 +82,9 @@ public class ModeradorServicioImp implements ModeradorServicio {
     public void eliminarModerador(Long id) throws Exception {
 
         findById(id);
-        fotoServicioImp.eliminarFoto(findById(id).getFoto().getId());
+        if(findById(id).getFoto() !=null){
+            fotoServicioImp.eliminarFoto(findById(id).getFoto().getId());
+        }
         moderadorRepositorio.deleteById(id);
 
     }
