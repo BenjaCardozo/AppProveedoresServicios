@@ -10,6 +10,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -29,6 +30,7 @@ public class AdministradorControlador {
     @Autowired
     AdministradorServicioImp administradorServicioImp;
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     @Transactional
     public ResponseEntity<AdministradorResponse> crear(@Valid @ModelAttribute AdministradorRequest administradorRequest, BindingResult result) throws MethodArgumentNotValidException, EmailAlreadyInUseException {
@@ -40,11 +42,13 @@ public class AdministradorControlador {
         return ResponseEntity.status(HttpStatus.CREATED).body(administradorServicioImp.crearAdmin(administradorRequest));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/{id}")
     public ResponseEntity<AdministradorResponse> buscarPorId(@PathVariable Long id) {
         return ResponseEntity.ok().body(administradorServicioImp.findAdminById(id));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     @Transactional
     public ResponseEntity<Void> eliminar(@PathVariable Long id) throws Exception {
@@ -64,6 +68,7 @@ public class AdministradorControlador {
         return ResponseEntity.ok().body(administradorServicioImp.actualizarAdmin(administradorRequest, id));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PatchMapping("baja/{id}")
     @Transactional
     public ResponseEntity<AdministradorResponse> darBaja(@PathVariable Long id) throws Exception {
@@ -73,6 +78,7 @@ public class AdministradorControlador {
         return ResponseEntity.ok().body(administradorServicioImp.findAdminById(id));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PatchMapping("alta/{id}")
     @Transactional
     public ResponseEntity<AdministradorResponse> darAlta(@PathVariable Long id) throws Exception {
@@ -82,11 +88,13 @@ public class AdministradorControlador {
         return ResponseEntity.ok().body(administradorServicioImp.findAdminById(id));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/nombres")
     public ResponseEntity<ListAdministradorResponse> ordenarAdministradoresPorNombre() {
         return ResponseEntity.ok().body(administradorServicioImp.ordenarAdminsPorNombre());
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/nombresDesc")
     public ResponseEntity<ListAdministradorResponse> ordenarAdministradoresPorNombreDesc() {
         return ResponseEntity.ok().body(administradorServicioImp.ordenarAdminsPorNombreDesc());
