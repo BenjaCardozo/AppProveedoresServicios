@@ -71,7 +71,6 @@ public class TrabajoServicioImp implements TrabajoServicio {
 
         findById(id);
         trabajoRepositorio.deleteById(id);
-
     }
 
     @Override
@@ -161,6 +160,5 @@ public class TrabajoServicioImp implements TrabajoServicio {
         trabajosResponse.setTrabajos(mapper.map(trabajos));
 
         return trabajosResponse;
-
     }
 }
