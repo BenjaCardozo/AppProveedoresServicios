@@ -80,7 +80,9 @@ public class AdministradorServicioImp implements AdministradorServicio {
     public void eliminarAdmin(Long id) throws Exception {
 
         findById(id);
-        fotoServicioImp.eliminarFoto(findById(id).getFoto().getId());
+        if(findById(id).getFoto() !=null){
+            fotoServicioImp.eliminarFoto(findById(id).getFoto().getId());
+        }
         administradorRepositorio.deleteById(id);
     }
 

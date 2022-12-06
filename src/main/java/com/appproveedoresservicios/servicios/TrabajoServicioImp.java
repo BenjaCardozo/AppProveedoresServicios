@@ -71,7 +71,6 @@ public class TrabajoServicioImp implements TrabajoServicio {
 
         findById(id);
         trabajoRepositorio.deleteById(id);
-
     }
 
     @Override
@@ -148,7 +147,7 @@ public class TrabajoServicioImp implements TrabajoServicio {
     @Override
     public ListTrabajoResponse listarTrabajoPorProveedor(Long idProveedor) {
 
-        Proveedor proveedor = proveedorServicioImp.findById(idProveedor);
+    Proveedor proveedor = proveedorServicioImp.findById(idProveedor);
         
         List<Trabajo> trabajos = trabajoRepositorio.findByProveedor(proveedor);
 
@@ -161,6 +160,5 @@ public class TrabajoServicioImp implements TrabajoServicio {
         trabajosResponse.setTrabajos(mapper.map(trabajos));
 
         return trabajosResponse;
-
     }
 }

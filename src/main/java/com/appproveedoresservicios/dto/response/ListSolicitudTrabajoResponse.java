@@ -1,10 +1,12 @@
+
 package com.appproveedoresservicios.dto.response;
 
 import java.util.List;
 import lombok.Data;
 
 @Data
-public class ListTrabajoResponse {
+public class ListSolicitudTrabajoResponse {
     
-    List<TrabajoResponse> trabajos;
+    List<SolicitudTrabajoResponse> solicitudesTrabajo;
+    
 }

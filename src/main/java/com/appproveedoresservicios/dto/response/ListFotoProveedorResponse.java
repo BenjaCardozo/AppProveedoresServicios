@@ -4,7 +4,7 @@ import java.util.List;
 import lombok.Data;
 
 @Data
-public class ListTrabajoResponse {
+public class ListFotoProveedorResponse {
     
-    List<TrabajoResponse> trabajos;
+    List<FotoProveedorResponse> fotosProveedor;
 }
